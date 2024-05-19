@@ -1,0 +1,333 @@
+﻿@page
+@using YAF.Web.TagHelpers
+@model YAF.Website.Pages.FeaturesModel
+
+@{
+    ViewData["Title"] = "Features";
+}
+
+<h1 class="display-4">
+    Features
+</h1>
+
+<div class="accordion accordion-flush" id="accordionFeatures">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true" aria-controls="flush-collapseOne">
+                <h5>General Features</h5>
+            </button>
+        </h2>
+        <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Forum </li>
+                    <li class="list-group-item list-group-item-action">Individual user graphic "Album" system with automatic thumbnails feature </li>
+                    <li class="list-group-item list-group-item-action">Polls </li>
+                    <li class="list-group-item list-group-item-action">Real-time direct chat messages</li>
+                    <li class="list-group-item list-group-item-action">Real-Time notifications</li>
+                    <li class="list-group-item list-group-item-action">Drag & Drop upload Multiple images and other files</li>
+                    <li class="list-group-item list-group-item-action">Mark topic(s) or forum(s) as read</li>
+                    <li class="list-group-item list-group-item-action">WYSIWYG BBCode Editor</li>
+                    <li class="list-group-item list-group-item-action">Timestamps are displayed in relative Time</li>
+                    <li class="list-group-item list-group-item-action">Multilingual support (also for RTL languages) </li>
+                    <li class="list-group-item list-group-item-action">Unicode (UTF-8) encoding </li>
+                    <li class="list-group-item list-group-item-action">RSS Feeds for all Pages (e.g. Forums, Topics, Active Discussion) </li>
+                    <li class="list-group-item list-group-item-action">Daily Email Digest </li>
+                    <li class="list-group-item list-group-item-action">Multiple Languages Supported </li>
+                    <li class="list-group-item list-group-item-action">Available as stand-alone application, DNN Module and Sample Application</li>
+                    <li class="list-group-item list-group-item-action">Stable and Secure </li>
+                    <li class="list-group-item list-group-item-action">Great Performance - Even for forums with a large numbers of users and posts, </li>
+                    <li class="list-group-item list-group-item-action">Instant Full text Search</li>
+                    <li class="list-group-item list-group-item-action">22 Included <a href="https://github.com/thomaspark/bootswatch">Bootstrap Themes</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingDb">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseDb" aria-expanded="false" aria-controls="flush-collapseDb">
+                <h5>Supported Databases</h5>
+            </button>
+        </h2>
+        <div id="flush-collapseDb" class="accordion-collapse collapse" aria-labelledby="flush-headingDb" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">MS SQL Server/Express (2012 or above)</li>
+                    <li class="list-group-item list-group-item-action">MySQL</li>
+                    <li class="list-group-item list-group-item-action">PostgreSQL</li>
+                    <li class="list-group-item list-group-item-action">SQLite</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                <h5>Member Management</h5>
+            </button>
+        </h2>
+        <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">ASP.NET Identity </li>
+                    <li class="list-group-item list-group-item-action">user system with unlimited roles and permissions </li>
+                    <li class="list-group-item list-group-item-action">Rank System  </li>
+                    <li class="list-group-item list-group-item-action">Group/Role specific features including: Colors</li>
+                    <li class="list-group-item list-group-item-action">Login via Username/Display Name/Email and Password </li>
+                    <li class="list-group-item list-group-item-action">2FA Authentication</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading4">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
+                <h5>Security</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse4" class="accordion-collapse collapse" aria-labelledby="flush-heading4" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Possibility to hide forums when user has no access. </li>
+                    <li class="list-group-item list-group-item-action">Access rights based on user groups, or individual user account. </li>
+                    <li class="list-group-item list-group-item-action">Email Verification </li>
+                    <li class="list-group-item list-group-item-action">IP/Email/username Banning (Black lists)</li>
+                    <li class="list-group-item list-group-item-action">Bad Word Replacement System </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading5">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse5" aria-expanded="false" aria-controls="flush-collapse5">
+                <h5>SPAM Protection</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse5" class="accordion-collapse collapse" aria-labelledby="flush-heading5" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Block Spam Messages and users via Spam Words when trying to post spam content</li>
+                    <li class="list-group-item list-group-item-action">Automatically reject Bots During registration via StopForumSpam.com</li>
+                    <li class="list-group-item list-group-item-action">Automatically reject Bots During registration via BotScout.com</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading7">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse7" aria-expanded="false" aria-controls="flush-collapse7">
+                <h5>Forums</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse7" class="accordion-collapse collapse" aria-labelledby="flush-heading7" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Unlimited number of categories, forums and sub forums per board</li>
+                    <li class="list-group-item list-group-item-action">Permissions can be set per Roles (Groups) or individual Users</li>
+                </ul>
+            </div>
+        </div>
+    </div><!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading8">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse8" aria-expanded="false" aria-controls="flush-collapse8">
+                <h5>Topics</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse8" class="accordion-collapse collapse" aria-labelledby="flush-heading8" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Real-Time topic and forum notifications</li>
+                    <li class="list-group-item list-group-item-action">Topic and forum Email Notification</li>
+                    <li class="list-group-item list-group-item-action">Visitors who are viewing the topic are shown </li>
+                    <li class="list-group-item list-group-item-action">Printer friendly topic view </li>
+                    <li class="list-group-item list-group-item-action">Tools to Manage Topics - Edit, Delete, Move, etc. </li>
+                    <li class="list-group-item list-group-item-action">Subscribe the Topic via Atom or RSS Feed </li>
+                    <li class="list-group-item list-group-item-action">Topic Timestamps are displayed in relative Time e.g. "4 minutes ago" </li>
+                    <li class="list-group-item list-group-item-action">Topic Starter can mark a reply as Answer</li>
+                    <li class="list-group-item list-group-item-action">Show similar topic titles</li>
+                    <li class="list-group-item list-group-item-action">Topic Tags</li>
+                </ul>
+            </div>
+        </div>
+    </div><!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading9">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse9" aria-expanded="false" aria-controls="flush-collapse9">
+                <h5>Posting & Community</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse9" class="accordion-collapse collapse" aria-labelledby="flush-heading9" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Supports Unicode Emoji</li>
+                    <li class="list-group-item list-group-item-action">Supports all Common BBCodes </li>
+                    <li class="list-group-item list-group-item-action">Supports Custom BBCodes </li>
+                    <li class="list-group-item list-group-item-action">Supports Unicode Emoticons </li>
+                    <li class="list-group-item list-group-item-action">Optional WYSIWYG BBCode editors for posts </li>
+                    <li class="list-group-item list-group-item-action">Attachment stored on file system </li>
+                    <li class="list-group-item list-group-item-action">Attachment Images with Modal Image View </li>
+                    <li class="list-group-item list-group-item-action">Quick Replay Box for fast Replying </li>
+                    <li class="list-group-item list-group-item-action">Preview Post when writing a Post </li>
+                    <li class="list-group-item list-group-item-action">Polls</li>
+                    <li class="list-group-item list-group-item-action">Post Reporting - report posts to moderators </li>
+                    <li class="list-group-item list-group-item-action">User post count </li>
+                    <li class="list-group-item list-group-item-action">Thank System </li>
+                    <li class="list-group-item list-group-item-action">Post Timestamps are displayed in relative Time e.g. "4 minutes ago" </li>
+                    <li class="list-group-item list-group-item-action">Real-Time Notifications when a user get mentioned or Quoted in a Message.</li>
+                    <li class="list-group-item list-group-item-action">Automatically save message draft </li>
+                </ul>
+            </div>
+        </div>
+    </div><!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading10">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse10" aria-expanded="false" aria-controls="flush-collapse10">
+                <h5>Member Features</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse10" class="accordion-collapse collapse" aria-labelledby="flush-heading10" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Member Profile Page </li>
+                    <li class="list-group-item list-group-item-action">Member List (With Search) </li>
+                    <li class="list-group-item list-group-item-action">Optional - Member Theme selection </li>
+                    <li class="list-group-item list-group-item-action">Private Messaging </li>
+                    <li class="list-group-item list-group-item-action">Friends List </li>
+                    <li class="list-group-item list-group-item-action">Who's Online </li>
+                    <li class="list-group-item list-group-item-action">Member Signatures </li>
+                    <li class="list-group-item list-group-item-action">Favorite Topics List </li>
+                    <li class="list-group-item list-group-item-action">User Albums </li>
+                    <li class="list-group-item list-group-item-action">Reputation System with unique Reputation Bar </li>
+                    <li class="list-group-item list-group-item-action">User Read Tracking </li>
+                    <li class="list-group-item list-group-item-action">User Info Hover cards</li>
+                    <li class="list-group-item list-group-item-action">Block other Users</li>
+                </ul>
+            </div>
+        </div>
+    </div><!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading11">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse11" aria-expanded="false" aria-controls="flush-collapse11">
+                <h5>Avatar Options</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse11" class="accordion-collapse collapse" aria-labelledby="flush-heading11" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Admin Defined Avatar Galleries </li>
+                    <li class="list-group-item list-group-item-action">Custom Avatars Users can upload from computer </li>
+                    <li class="list-group-item list-group-item-action">Standard text avatar which unique color and username abbr.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading14">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse14" aria-expanded="false" aria-controls="flush-collapse14">
+                <h5>Attachments</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse14" class="accordion-collapse collapse" aria-labelledby="flush-heading14" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Multiple attachments and file types (types defined by Admin) </li>
+                    <li class="list-group-item list-group-item-action">Storage type options for attachments (database or file system) </li>
+                    <li class="list-group-item list-group-item-action">Images can be directly attached to a message, via Drag & Drop in the Editor</li>
+                </ul>
+            </div>
+        </div>
+    </div><!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading15">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse15" aria-expanded="false" aria-controls="flush-collapse15">
+                <h5>User Settings</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse15" class="accordion-collapse collapse" aria-labelledby="flush-heading15" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">
+                        These Settings include Time zone, Editor Options, Language chooser and theme chooser
+                    </li>
+                    <li class="list-group-item list-group-item-action">Auto-Watch Topics - where a user leaves his posts </li>
+                    <li class="list-group-item list-group-item-action">Email notifications for new posts in forums or in topics </li>
+                    <li class="list-group-item list-group-item-action">Block users.</li>
+                </ul>
+            </div>
+        </div>
+    </div><!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading16">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse16" aria-expanded="false" aria-controls="flush-collapse16">
+                <h5>Admin &amp; Host Features</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse16" class="accordion-collapse collapse" aria-labelledby="flush-heading16" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Edit user accounts</li>
+                    <li class="list-group-item list-group-item-action">Approve user accounts</li>
+                    <li class="list-group-item list-group-item-action">Anti Spam Settings</li>
+                    <li class="list-group-item list-group-item-action">Web based administration </li>
+                    <li class="list-group-item list-group-item-action">Board stats </li>
+                    <li class="list-group-item list-group-item-action">Administrators can mass email to all users or specific group. </li>
+                    <li class="list-group-item list-group-item-action">Mass User Import/Export </li>
+                    <li class="list-group-item list-group-item-action">Database Maintenance </li>
+                    <li class="list-group-item list-group-item-action">Run SQL Queries </li>
+                </ul>
+            </div>
+        </div>
+    </div><!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading17">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse17" aria-expanded="false" aria-controls="flush-collapse17">
+                <h5>Admin Maintenance</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse17" class="accordion-collapse collapse" aria-labelledby="flush-heading17" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Task Manager </li>
+                    <li class="list-group-item list-group-item-action">Prune Topics </li>
+                    <li class="list-group-item list-group-item-action">Private Messages Management </li>
+                    <li class="list-group-item list-group-item-action">Event Log </li>
+                    <li class="list-group-item list-group-item-action">Restart Application </li>
+                </ul>
+            </div>
+        </div>
+    </div><!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading18">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse18" aria-expanded="false" aria-controls="flush-collapse18">
+                <h5>Language</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse18" class="accordion-collapse collapse" aria-labelledby="flush-heading18" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Multiple Languages Supported </li>
+                    <li class="list-group-item list-group-item-action">24 Language Files included </li>
+                    <li class="list-group-item list-group-item-action">Built-In Language Manager </li>
+                </ul>
+            </div>
+        </div>
+    </div><!----->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading19">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse19" aria-expanded="false" aria-controls="flush-collapse19">
+                <h5>Help</h5>
+            </button>
+        </h2>
+        <div id="flush-collapse19" class="accordion-collapse collapse" aria-labelledby="flush-heading19" data-bs-parent="#accordionFeatures">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-action">Included a Customizable Help Guide </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

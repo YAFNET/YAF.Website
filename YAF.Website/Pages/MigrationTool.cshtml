@@ -1,0 +1,112 @@
+﻿@page
+@using YAF.Types.Extensions
+@model YAF.Website.Pages.MigrationToolModel
+
+@{
+    ViewData["Title"] = "Web.Config Migration Tool";
+}
+
+<style>
+        .CodeMirror { text-align: left!important; }
+</style>
+
+<link rel="stylesheet" href="~/css/codemirror.css">
+<link rel="stylesheet" href="~/css/forum.min.css">
+
+<!--=== Content Part ===-->
+<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1>Migrate Existing Web.Config to the Latest YAF.NET v3.x.x Version</h1>
+    <p class="lead">This tool allows you to migrate an existing web.config from a Previous Version to the newest Version.</p>
+    
+    <div class="alert alert-danger show">
+        <h4 class="alert-heading">Important:</h4>
+        <p>This is only for <span class="badge text-bg-danger">YAF.NET v3.x.x</span>, and not for version <span class="badge text-bg-danger">4.0.0</span> or higher</p>
+    </div>
+
+    <form method="post">
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label asp-for="Import" CssClass="form-label">
+                        Enter Web.Config for Migration
+                    </label>
+                    <textarea class="form-control" asp-for="Import" rows="20"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <p><button class="btn btn-primary" type="submit">Migrate Config</button></p>
+    </form>
+    
+    @if (Model.MergedOutput.IsSet())
+    {
+        <label>Updated Web.config</label>
+        <div class="row">
+            <div class="col">
+                <input type="hidden" ID="MergedOutput" value="@Html.Encode(Model.MergedOutput)"/>
+                <div id="view">
+                </div>
+            </div>
+        </div>
+
+        @if (Model.AppSettings.IsSet())
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-danger show">
+                        <h4 class="alert-heading">Important:</h4>
+                        <p>Add the following to the appSettings in the app.config...</p>
+                        <hr />
+                        <pre><code class="language-xml">@(Model.AppSettings)</code></pre>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    
+    @if (Model.ErrorMessage.IsSet())
+    {
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Error</h4>
+            <p>If you encounter any errors. Report them in the support forum. <a href="https://yetanotherforum.net/forum/">https://yetanotherforum.net/forum/</a></p>
+            <hr />
+            <p class="mb-0">@Html.Encode(Model.ErrorMessage)</p>
+        </div>
+    }
+</div>
+
+@section Scripts
+{
+    <script src="~/js/codemirror.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded',
+            function () {
+                CodeMirror.fromTextArea(document.getElementById("Import"),
+                    {
+                        mode: "xml",
+                        theme: "blackboard",
+                        lineNumbers: true
+                    });
+
+                const merged = document.getElementById("MergedOutput");
+
+                const target = document.getElementById("view");
+
+                if (merged != null) {
+                    CodeMirror(target, {
+                        value: htmlDecode(merged.value),
+                        mode: "xml",
+                        theme: "blackboard",
+                        lineNumbers: true
+                    });
+                }
+            });
+
+        function htmlDecode(html) {
+            const txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+        }
+    </script>
+}

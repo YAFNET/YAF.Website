@@ -1,0 +1,320 @@
+﻿@page
+@using YAF.Web.TagHelpers
+@model YAF.Website.Pages.DownloadsModel
+
+@{
+    ViewData["Title"] = "Downloads";
+}
+
+<style>
+    .icon-square {
+        width: 5rem;
+        height: 5rem;
+    }
+</style>
+
+<!-- Recent Jobs -->
+<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Downloads</h1>
+    <p class="lead">Get the latest version of YAF and install it now. It's simple to install and ready to run.</p>
+</div>
+
+<div class="accordion" id="downloads">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNetFx" aria-expanded="false" aria-controls="collapseNetFx">
+                <div class="icon-square text-body-emphasis d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <img src="~/images/net-framework.png" alt=".net Framework logo" style="width:3em;height:3em" />
+                </div>
+                <h3 class="fs-2 text-body-emphasis">.NET Framework Versions</h3>
+            </button>
+        </h2>
+        <div id="collapseNetFx" class="accordion-collapse collapse" data-bs-parent="#downloads">
+            <div class="accordion-body">
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <div class="col">
+                        <!-- Recent Jobs -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @Model.ReleaseTitle
+                                </h5>
+                                <p class="card-text">
+                                    Download the Latest YAF.NET Release (MS SQL Package)
+                                </p>
+                                <img src="~/images/server/mssql.svg" class="img-thumbnail" alt="MS SQL Server logo" style="max-height:100px;background-color: white">
+                                <p class="card-text">
+                                    For MS SQL Server (2012 or above). YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2022.
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <a class="btn btn-primary m-1" href="@Model.ReleaseMsSqlInstall">
+                                            Install Package <span class="badge bg-secondary">@Model.ReleaseMsSqlInstallDownloads</span>
+                                        </a>
+                                        <a class="btn btn-info m-1" href="@Model.ReleaseMsSqlUpgrade">
+                                            Upgrade Package <span class="badge bg-secondary">@Model.ReleaseMsSqlUpgradeDownloads</span>
+                                        </a>
+                                        <a class="btn btn-warning m-1" href="@Model.ReleaseSource">
+                                            Source Package
+                                        </a>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- Recent Jobs -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @Model.ReleaseTitle
+                                </h5>
+                                <p class="card-text">
+                                    Download the Latest YAF.NET Release (MySQL Package)
+                                </p>
+                                <img src="~/images/server/mysql.png" class="img-thumbnail" alt="MySQL logo" style="max-height:100px;background-color: white">
+                                <p class="card-text">
+                                    For MySQL. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2022.
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <a class="btn btn-primary m-1" href="@Model.ReleaseMySqlInstall">
+                                            Install Package <span class="badge bg-secondary">@Model.ReleaseMySqlInstallDownloads</span>
+                                        </a>
+                                        <a class="btn btn-info m-1" id="release-mysql-upgrade" href="@Model.ReleaseMySqlUpgrade">
+                                            Upgrade Package <span class="badge bg-secondary">@Model.ReleaseMySqlUpgradeDownloads</span>
+                                        </a>
+                                        <a class="btn btn-warning m-1" href="@Model.ReleaseSource">
+                                            Source Package
+                                        </a>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- Recent Jobs -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @Model.ReleaseTitle
+                                </h5>
+                                <p class="card-text">
+                                    Download the Latest YAF.NET Release (PostgreSQL Package)
+                                </p>
+                                <img src="~/images/server/postgresql.png" class="img-thumbnail" alt="PostgreSQL logo" style="max-height:100px;background-color: white">
+                                <p class="card-text">
+                                    For PostgreSQL. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2022.
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <a class="btn btn-primary m-1" href="@Model.ReleasePostgreSqlInstall">
+                                            Install Package <span class="badge bg-secondary">@Model.ReleasePostgreSqlInstallDownloads</span>
+                                        </a>
+                                        <a class="btn btn-info m-1" id="release-postgresql-upgrade" href="@Model.ReleasePostgreSqlUpgrade">
+                                            Upgrade Package <span class="badge bg-secondary">@Model.ReleasePostgreSqlUpgradeDownloads</span>
+                                        </a>
+                                        <a class="btn btn-warning m-1" href="@Model.ReleaseSource">
+                                            Source Package
+                                        </a>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- Recent Jobs -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @Model.ReleaseTitle
+                                </h5>
+                                <p class="card-text">
+                                    Download the Latest YAF.NET Release (Sqlite Package)
+                                </p>
+                                <img src="~/images/server/sqlite.svg" class="img-thumbnail" alt="Sqlite logo" style="max-height:100px;background-color: white">
+                                <p class="card-text">
+                                    For Sqlite. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2022.
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <a class="btn btn-primary m-1" href="@Model.ReleaseSqliteInstall">
+                                            Install Package <span class="badge bg-secondary">@Model.ReleaseSqliteInstallDownloads</span>
+                                        </a>
+                                        <a class="btn btn-info m-1" href="@Model.ReleaseSqliteUpgrade">
+                                            Upgrade Package <span class="badge bg-secondary">@Model.ReleaseSqliteUpgradeDownloads</span>
+                                        </a>
+                                        <a class="btn btn-warning m-1" href="@Model.ReleaseSource">
+                                            Source Package
+                                        </a>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Recent Jobs -->
+                    <!-- Recent Jobs -->
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @Model.ReleaseDnnTitle
+                                </h5>
+                                <p class="card-text">
+                                    YAF.NET Forum Module for DNN (DotNetNuke) CMS for MS SQL Server (2012 or above)
+                                </p>
+                                <p class="card-text">
+                                    YAF.NET's DNN module allows simple integration into your DNN CMS with a module, for DNN v9.11.00 or above.
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <a class="btn btn-primary m-1"href="@Model.ReleaseDnnInstall">
+                                            Module Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleaseDnnInstallDownloads</span>
+                                        </a>
+                                        <a class="btn btn-info m-1" href="@Model.ReleaseDnnSource">
+                                            Source Package
+                                        </a>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Recent Jobs -->
+                </div>
+                <!-- End Recent Jobs -->
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNetCore" aria-expanded="false" aria-controls="collapseNetCore">
+                <div class="icon-square text-body-emphasis d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <img src="~/images/net-core.png" alt=".net Core logo" style="width:3em;height:3em" />
+                </div>
+                <h3 class="fs-2 text-body-emphasis">.NET Core Versions</h3>
+            </button>
+        </h2>
+        <div id="collapseNetCore" class="accordion-collapse collapse" data-bs-parent="#downloads">
+            <div class="accordion-body">
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <div class="col">
+                        <!-- Recent Jobs -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @Model.ReleaseCoreTitle
+                                </h5>
+                                <p class="card-text">
+                                    Download the Latest YAF.NET Release (MS SQL Package)
+                                </p>
+                                <img src="~/images/server/mssql.svg" class="img-thumbnail" alt="MS SQL Server logo" style="max-height:100px;background-color: white">
+                                <p class="card-text">
+                                    For MS SQL Server (2012 or above). YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2022.
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <a class="btn btn-primary m-1" href="@Model.ReleaseMsSqlCoreUrl">
+                                            Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleaseMsSqlCoreDownloads</span>
+                                        </a>
+                                        <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
+                                            Source Package
+                                        </a>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- Recent Jobs -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @Model.ReleaseCoreTitle
+                                </h5>
+                                <p class="card-text">
+                                    Download the Latest YAF.NET Release (MySQL Package)
+                                </p>
+                                <img src="~/images/server/mysql.png" class="img-thumbnail" alt="MySQL logo" style="max-height:100px;background-color: white">
+                                <p class="card-text">
+                                    For MySQL. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2022.
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <a class="btn btn-primary m-1" href="@Model.ReleaseMySqlCoreUrl">
+                                            Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleaseMySqlCoreDownloads</span>
+                                        </a>
+                                        <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
+                                            Source Package
+                                        </a>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- Recent Jobs -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @Model.ReleaseCoreTitle
+                                </h5>
+                                <p class="card-text">
+                                    Download the Latest YAF.NET Release (PostgreSQL Package)
+                                </p>
+                                <img src="~/images/server/postgresql.png" class="img-thumbnail" alt="PostgreSQL logo" style="max-height:100px;background-color: white">
+                                <p class="card-text">
+                                    For PostgreSQL. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2022.
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <a class="btn btn-primary m-1" href="@Model.ReleasePostgreSqlCoreUrl">
+                                            Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleasePostgreSqlCoreDownloads</span>
+                                        </a>
+                                        <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
+                                            Source Package
+                                        </a>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- Recent Jobs -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @Model.ReleaseCoreTitle
+                                </h5>
+                                <p class="card-text">
+                                    Download the Latest YAF.NET Release (Sqlite Package)
+                                </p>
+                                <img src="~/images/server/sqlite.svg" class="img-thumbnail" alt="Sqlite logo" style="max-height:100px;background-color: white">
+                                <p class="card-text">
+                                    For Sqlite. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2022.
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <a class="btn btn-primary m-1" href="@Model.ReleaseSqliteCoreUrl">
+                                            Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleaseSqliteCoreDownloads</span>
+                                        </a>
+                                        <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
+                                            Source Package
+                                        </a>
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Recent Jobs -->
+                </div>
+                <!-- End Recent Jobs -->
+            </div>
+        </div>
+    </div>
+</div>

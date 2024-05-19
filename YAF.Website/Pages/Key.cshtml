@@ -1,0 +1,37 @@
+﻿@page
+@using YAF.Types.Extensions
+@model YAF.Website.Pages.KeyModel
+
+@{
+    ViewData["Title"] = "Generate a Machine Key for your installation";
+}
+
+<link rel="stylesheet" href="~/css/forum.min.css">
+
+<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1>Generate ASP.NET Machine Keys for you YAF.NET v3.x.x Application</h1>
+    <p class="lead">This tool allows you to create a valid random machine key for validation and encryption/decryption of ASP.NET view state. </p>
+    <p class="lead">This is beneficial in a WebFarm where all the server nodes need to have the same machine key, and it is also beneficial on a single box to keep the machine key consistent between IIS recycles and server reboots.</p>
+    
+    <div class="alert alert-danger show">
+        <h4 class="alert-heading">Important:</h4>
+        <p>This is only for <span class="badge text-bg-danger">YAF.NET v3.x.x</span>, and not for version <span class="badge text-bg-danger">4.0.0</span> or higher</p>
+    </div>
+
+    <form method="post">
+        <p><button type="submit" class="btn btn-primary">Generate Key</button></p>
+        
+        @if (Model.OutputKey.IsSet())
+        {
+            <label class="form-label">Machine Key</label>
+            <div class="row">
+                <div class="col-md-11">
+                    <pre><code class="language-xml">@(Model.OutputKey)</code></pre>
+                    <div class="alert alert-success show">
+                        <strong>Note:</strong> Copy and paste the generated machine key to your web.config in the &lt;system.web&gt; section.
+                    </div>
+                </div>
+            </div>
+        }
+    </form>
+</div>
