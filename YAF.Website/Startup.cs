@@ -24,6 +24,8 @@
 
 using Autofac;
 
+using Microsoft.AspNetCore.Rewrite;
+
 using YAF.Core.Context;
 using YAF.Core.Extensions;
 using YAF.Core.Hubs;
@@ -73,12 +75,8 @@ public class Startup : IHaveServiceLocator
     {
         services.AddRazorPages(options =>
         {
-            options.Conventions.AddPageRoute("/SiteMap", "Sitemap.xml");
+            options.Conventions.AddAreaPageRoute("Forums", "/SiteMap", "/Sitemap.xml");
         }).AddYafRazorPages(this.Environment);
-
-        services.AddControllers();
-
-        services.AddSignalR();
 
         services.AddYafCore(this.Configuration);
     }
@@ -105,8 +103,7 @@ public class Startup : IHaveServiceLocator
         }
         else
         {
-            //app.UseExceptionHandler("/Error");
-            app.UseDeveloperExceptionPage();
+            app.UseExceptionHandler("/Forums/Error");
 
             app.UseHsts();
         }
@@ -115,11 +112,17 @@ public class Startup : IHaveServiceLocator
 
         app.UseAntiXssMiddleware();
 
-        app.UseStaticFiles();
+		using (var iisUrlRewriteStreamReader = File.OpenText(Path.Combine(env.ContentRootPath, "IISUrlRewrite.xml")))
+		{
+			var options = new RewriteOptions().AddIISUrlRewrite(iisUrlRewriteStreamReader);
+			app.UseRewriter(options);
+		}
+
+		app.UseStaticFiles();
 
         app.UseSession();
 
-        app.UseYafCore(this.ServiceLocator, env);
+		app.UseYafCore(this.ServiceLocator, env);
 
         app.UseEndpoints(endpoints =>
         {

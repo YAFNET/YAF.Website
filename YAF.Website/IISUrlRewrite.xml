@@ -1,0 +1,12 @@
+<rewrite>
+	<rules>
+		<rule name="Forum to Forums" stopProcessing="true">
+			<match url="forum/(.*)" />
+			<action type="Redirect" url="forums/{R:1}" redirectType="Permanent" />
+		</rule>
+		<rule name="RegisterV2" stopProcessing="true">
+			<match url="RegisterV2\.asmx" />
+			<action type="Redirect" url="https://yetanotherforum.net" redirectType="Permanent" />
+		</rule>
+	</rules>
+</rewrite>
