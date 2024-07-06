@@ -108,6 +108,19 @@ public class Startup : IHaveServiceLocator
             app.UseHsts();
         }
 
+        app.Use(async (context, next) =>
+        {
+            var path = context.Request.Path.ToString();
+
+            if (path.Contains("/RegisterV", StringComparison.InvariantCultureIgnoreCase))
+            {
+                context.Response.StatusCode = 500;
+                return;
+            }
+
+            await next();
+        });
+
         app.RegisterAutofac();
 
         app.UseAntiXssMiddleware();
@@ -118,11 +131,14 @@ public class Startup : IHaveServiceLocator
 			app.UseRewriter(options);
 		}
 
-		app.UseStaticFiles();
+        app.UseStaticFiles();
 
         app.UseSession();
 
 		app.UseYafCore(this.ServiceLocator, env);
+
+        app.UseRobotsTxt(env);
+
 
         app.UseEndpoints(endpoints =>
         {

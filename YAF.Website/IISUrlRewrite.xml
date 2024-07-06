@@ -1,12 +1,24 @@
 <rewrite>
 	<rules>
-		<rule name="Forum to Forums" stopProcessing="true">
-			<match url="forum/(.*)" />
-			<action type="Redirect" url="forums/{R:1}" redirectType="Permanent" />
-		</rule>
-		<rule name="RegisterV2" stopProcessing="true">
-			<match url="RegisterV2\.asmx" />
-			<action type="Redirect" url="https://yetanotherforum.net" redirectType="Permanent" />
-		</rule>
+		<rule name="forum posts" stopProcessing="true">
+	<match url="forum/posts/t([0-9]+)-((.+))?(\?(.+))?$" />
+	<action type="Redirect" url="/forums/Posts/{R:1}/{R:3}" redirectType="Permanent" />
+</rule>
+<rule name="forum post" stopProcessing="true">
+	<match url="forum/posts/m([0-9]+)-((.+))?(\?(.+))?$" />
+	<action type="Redirect" url="/forums/Post/{R:1}/{R:3}" redirectType="Permanent" />
+</rule>
+<rule name="forum account" stopProcessing="true">
+	<match url="forum/Account/(.*)" />
+	<action type="Redirect" url="forums/Account/{R:1}" redirectType="Permanent" />
+</rule>
+<rule name="forum topics" stopProcessing="true">
+	<match url="forum/topics/([0-9]+)-((.+))?(\?(.+))?$" />
+	<action type="Redirect" url="/forums/Topics/{R:1}/{R:3}" redirectType="Permanent" />
+</rule>
+<rule name="default.aspx" stopProcessing="true">
+	<match url="default.aspx" />
+	<action type="Redirect" url="/" redirectType="Permanent" />
+</rule>
 	</rules>
 </rewrite>
