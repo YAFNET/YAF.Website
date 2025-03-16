@@ -305,37 +305,40 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
     /// <returns>A Task representing the asynchronous operation.</returns>
     public async Task OnGetAsync()
     {
-        await this.GetDnnReleasesAsync();
+        var githubClient = new GitHubClient(new ProductHeaderValue("YAF.NET"));
 
-        await this.GetSampleApplicationReleasesAsync();
+        await this.GetDnnReleasesAsync(githubClient);
 
-        await this.GetSampleAppReleasesAsync();
+        var sampleAppReleases =  await githubClient.Repository.Release.GetAll("YAFNET", "YAF.SampleWebApplication");
 
-        await this.GetMySqlReleasesAsync();
+        await this.GetSampleApplicationReleasesAsync(sampleAppReleases);
 
-        await this.GetMsSqlReleasesAsync();
+        await this.GetSampleAppReleasesAsync(sampleAppReleases);
 
-        await this.GetSqliteReleasesAsync();
+        await this.GetMySqlReleasesAsync(githubClient);
 
-        await this.GetPostgreSqlReleasesAsync();
+        await this.GetMsSqlReleasesAsync(githubClient);
 
-        await this.GetNetCoreReleasesAsync();
+        await this.GetSqliteReleasesAsync(githubClient);
+
+        await this.GetPostgreSqlReleasesAsync(githubClient);
+
+        await this.GetNetCoreReleasesAsync(githubClient);
     }
 
     /// <summary>
     /// Gets the net core releases.
     /// </summary>
-    private async Task GetNetCoreReleasesAsync()
+    /// <param name="githubClient"></param>
+    private async Task GetNetCoreReleasesAsync(GitHubClient githubClient)
     {
-        var github = new GitHubClient(new ProductHeaderValue("YAF.NET"));
-
         Release release;
 
         if (this.Get<IDataCache>().Get("ReleaseNetCore") == null)
         {
-            var releases = await github.Repository.Release.GetAll("YAFNET", "YAFNET");
+            var releases = await githubClient.Repository.Release.GetAll("YAFNET", "YAFNET");
 
-            release = releases.First(r => r.TagName.StartsWith("v4"));
+            release = releases.First(r => r.TagName.StartsWith("v4") && !r.Prerelease);
 
             this.Get<IDataCache>().Set("ReleaseNetCore", release);
         }
@@ -363,22 +366,20 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
     /// <summary>
     /// Gets my SQL releases.
     /// </summary>
-    private async Task GetMySqlReleasesAsync()
+    /// <param name="githubClient"></param>
+    private async Task GetMySqlReleasesAsync(GitHubClient githubClient)
     {
-        var github = new GitHubClient(new ProductHeaderValue("YAF.NET"));
-
         Release release;
 
         if (this.Get<IDataCache>().Get("Release") == null)
         {
-            release = await github.Repository.Release.GetLatest("YAFNET", "YAFNET");
+            release = await githubClient.Repository.Release.GetLatest("YAFNET", "YAFNET");
             this.Get<IDataCache>().Set("Release", release);
         }
         else
         {
             release = this.Get<IDataCache>().Get("Release").ToType<Release>();
         }
-
 
         ReleaseMySqlInstall = release.Assets[1].BrowserDownloadUrl;
         ReleaseMySqlInstallDownloads = $"{release.Assets[1].DownloadCount} downloads";
@@ -392,22 +393,20 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
     /// <summary>
     /// Gets the ms SQL releases.
     /// </summary>
-    private async Task GetMsSqlReleasesAsync()
+    /// <param name="githubClient"></param>
+    private async Task GetMsSqlReleasesAsync(GitHubClient githubClient)
     {
-        var github = new GitHubClient(new ProductHeaderValue("YAF.NET"));
-
         Release release;
 
         if (this.Get<IDataCache>().Get("Release") == null)
         {
-            release = await github.Repository.Release.GetLatest("YAFNET", "YAFNET");
+            release = await githubClient.Repository.Release.GetLatest("YAFNET", "YAFNET");
             this.Get<IDataCache>().Set("Release", release);
         }
         else
         {
             release = this.Get<IDataCache>().Get("Release").ToType<Release>();
         }
-
 
         ReleaseMsSqlInstall = release.Assets[6].BrowserDownloadUrl;
         ReleaseMsSqlInstallDownloads = $"{release.Assets[6].DownloadCount} downloads";
@@ -418,22 +417,20 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
     /// <summary>
     /// Gets the sqlite releases.
     /// </summary>
-    private async Task GetSqliteReleasesAsync()
+    /// <param name="githubClient"></param>
+    private async Task GetSqliteReleasesAsync(GitHubClient githubClient)
     {
-        var github = new GitHubClient(new ProductHeaderValue("YAF.NET"));
-
         Release release;
 
         if (this.Get<IDataCache>().Get("Release") == null)
         {
-            release = await github.Repository.Release.GetLatest("YAFNET", "YAFNET");
+            release = await githubClient.Repository.Release.GetLatest("YAFNET", "YAFNET");
             this.Get<IDataCache>().Set("Release", release);
         }
         else
         {
             release = this.Get<IDataCache>().Get("Release").ToType<Release>();
         }
-
 
         ReleaseSqliteInstall = release.Assets[5].BrowserDownloadUrl;
         ReleaseSqliteInstallDownloads = $"{release.Assets[5].DownloadCount} downloads";
@@ -444,22 +441,20 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
     /// <summary>
     /// Gets the postgre SQL releases.
     /// </summary>
-    private async Task GetPostgreSqlReleasesAsync()
+    /// <param name="githubClient"></param>
+    private async Task GetPostgreSqlReleasesAsync(GitHubClient githubClient)
     {
-        var github = new GitHubClient(new ProductHeaderValue("YAF.NET"));
-
         Release release;
 
         if (this.Get<IDataCache>().Get("Release") == null)
         {
-            release = await github.Repository.Release.GetLatest("YAFNET", "YAFNET");
+            release = await githubClient.Repository.Release.GetLatest("YAFNET", "YAFNET");
             this.Get<IDataCache>().Set("Release", release);
         }
         else
         {
             release = this.Get<IDataCache>().Get("Release").ToType<Release>();
         }
-
 
         ReleasePostgreSqlInstall = release.Assets[3].BrowserDownloadUrl;
         ReleasePostgreSqlInstallDownloads = $"{release.Assets[3].DownloadCount} downloads";
@@ -470,15 +465,14 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
     /// <summary>
     /// Gets the DNN releases.
     /// </summary>
-    private async Task GetDnnReleasesAsync()
+    /// <param name="githubClient"></param>
+    private async Task GetDnnReleasesAsync(GitHubClient githubClient)
     {
-        var github = new GitHubClient(new ProductHeaderValue("YAF.NET"));
-
         Release dnnRelease;
 
         if (this.Get<IDataCache>().Get("DnnRelease") == null)
         {
-            dnnRelease = await github.Repository.Release.GetLatest("YAFNET", "YAFNET-DNN");
+            dnnRelease = await githubClient.Repository.Release.GetLatest("YAFNET", "YAFNET-DNN");
             this.Get<IDataCache>().Set("DnnRelease", dnnRelease);
         }
         else
@@ -495,17 +489,15 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
     /// <summary>
     /// Gets the Sample Application (v3) releases.
     /// </summary>
-    private async Task GetSampleApplicationReleasesAsync()
+    /// 
+    /// <param name="sampleAppReleases">list of Releases.</param>
+    private Task GetSampleApplicationReleasesAsync(IReadOnlyList<Release> sampleAppReleases)
     {
-        var github = new GitHubClient(new ProductHeaderValue("YAF.NET"));
-
         Release release;
 
         if (this.Get<IDataCache>().Get("SampleApplicationRelease") == null)
         {
-            var releases = await github.Repository.Release.GetAll("YAFNET", "YAFNET");
-
-            release = releases.First(r => r.TagName.StartsWith("v3"));
+            release = sampleAppReleases.First(r => r.TagName.StartsWith("v3") && !r.Prerelease);
 
             this.Get<IDataCache>().Set("SampleApplicationRelease", release);
         }
@@ -516,22 +508,20 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
 
         ReleaseSampleApplication = release.ZipballUrl;
         ReleaseSampleApplicationTitle = release.Name;
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Gets the Sample App (v4) releases.
     /// </summary>
-    private async Task GetSampleAppReleasesAsync()
+    /// <param name="sampleAppReleases">list of Releases.</param>
+    private Task GetSampleAppReleasesAsync(IReadOnlyList<Release> sampleAppReleases)
     {
-        var github = new GitHubClient(new ProductHeaderValue("YAF.NET"));
-
         Release release;
 
         if (this.Get<IDataCache>().Get("SampleAppRelease") == null)
         {
-            var releases = await github.Repository.Release.GetAll("YAFNET", "YAFNET");
-
-            release = releases.First(r => r.TagName.StartsWith("v4"));
+            release = sampleAppReleases.First(r => r.TagName.StartsWith("v4") && !r.Prerelease);
 
             this.Get<IDataCache>().Set("SampleAppRelease", release);
         }
@@ -542,5 +532,6 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
 
         ReleaseSampleApp = release.ZipballUrl;
         ReleaseSampleAppTitle = release.Name;
+        return Task.CompletedTask;
     }
 }
