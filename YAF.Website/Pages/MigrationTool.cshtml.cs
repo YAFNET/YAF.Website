@@ -1,7 +1,7 @@
 /* Yet Another Forum.NET
  * Copyright (C) 2003-2005 Bjørnar Henden
  * Copyright (C) 2006-2013 Jaben Cargman
- * Copyright (C) 2014-2024 Ingo Herbote
+ * Copyright (C) 2014-2025 Ingo Herbote
  * https://www.yetanotherforum.net/
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -328,7 +328,7 @@ public void OnPost()
             {
                 var node = asyncInterfaces.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-8.0.0.0" newVersion="8.0.0.0"/>""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-9.0.0.3" newVersion="9.0.0.3"/>""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -337,7 +337,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                <assemblyIdentity name="Microsoft.Bcl.AsyncInterfaces" publicKeyToken="cc7b13ffcd2ddd51"/>
-                                               <bindingRedirect oldVersion="0.0.0.0-8.0.0.0" newVersion="8.0.0.0"/>
+                                               <bindingRedirect oldVersion="0.0.0.0-9.0.0.3" newVersion="9.0.0.3"/>
                                              </dependentAssembly>
                                              """);
 
@@ -420,7 +420,7 @@ public void OnPost()
             {
                 var node = extensionPrimitives.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-8.0.0.0" newVersion="8.0.0.0"/>""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-9.0.0.3" newVersion="9.0.0.3"/>""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -429,7 +429,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="Microsoft.Extensions.Primitives" publicKeyToken="ADB9793829DDAE60" culture="neutral"/>
-                                                                               <bindingRedirect oldVersion="0.0.0.0-8.0.0.0" newVersion="8.0.0.0"/>
+                                                                               <bindingRedirect oldVersion="0.0.0.0-9.0.0.3" newVersion="9.0.0.3"/>
                                                                                 </dependentAssembly>
                                              """);
 
@@ -443,7 +443,7 @@ public void OnPost()
             {
                 var node = compilerUnsafe.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0"/>""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-6.0.1.0" newVersion="6.0.1.0"/>""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -452,7 +452,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="System.Runtime.CompilerServices.Unsafe" publicKeyToken="B03F5F7F11D50A3A" culture="neutral"/>
-                                                                               <bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0"/>
+                                                                               <bindingRedirect oldVersion="0.0.0.0-6.0.1.0" newVersion="6.0.1.0"/>
                                                                                 </dependentAssembly>
                                              """);
 
@@ -466,7 +466,7 @@ public void OnPost()
             {
                 var node = threadingTask.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-4.2.0.1" newVersion="4.2.0.1"/>""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-4.2.1.0" newVersion="4.2.1.0"/>""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -475,7 +475,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="System.Threading.Tasks.Extensions" publicKeyToken="cc7b13ffcd2ddd51"/>
-                                                                               <bindingRedirect oldVersion="0.0.0.0-4.2.0.1" newVersion="4.2.0.1"/>
+                                                                               <bindingRedirect oldVersion="0.0.0.0-4.2.1.0" newVersion="4.2.1.0"/>
                                                                                 </dependentAssembly>
                                              """);
 
@@ -489,7 +489,7 @@ public void OnPost()
             {
                 var node = systemMemory.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-4.0.1.2" newVersion="4.0.1.2" />""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-4.0.2.0" newVersion="4.0.2.0" />""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -498,7 +498,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="System.Memory" culture="neutral" publicKeyToken="cc7b13ffcd2ddd51" />
-                                                                                 <bindingRedirect oldVersion="0.0.0.0-4.0.1.2" newVersion="4.0.1.2" />
+                                                                                 <bindingRedirect oldVersion="0.0.0.0-4.0.2.0" newVersion="4.0.2.0" />
                                                                                 </dependentAssembly>
                                              """);
 
@@ -513,11 +513,19 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="System.Diagnostics.DiagnosticSource" culture="neutral" publicKeyToken="CC7B13FFCD2DDD51" />
-                                                                                 <bindingRedirect oldVersion="0.0.0.0-8.0.0.1" newVersion="8.0.0.1" />
+                                                                                 <bindingRedirect oldVersion="0.0.0.0-9.0.0.3" newVersion="9.0.0.3" />
                                                                                 </dependentAssembly>
                                              """);
 
                 assemblybindings.Add(addNode);
+            }
+            else
+            {
+                var node = systemDiagnosticSource.NextNode;
+
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-9.0.0.3" newVersion="9.0.0.3" />""");
+
+                node.ReplaceWith(replaceNode);
             }
         }
         else
@@ -801,7 +809,8 @@ public void OnPost()
             compilationNode?.Add(targetFramework);
         }
 
-        this.MergedOutput = webConfig.ToString();
+        this.MergedOutput = webConfig.ToString().Replace(" xmlns=\"\"", string.Empty)
+            .Replace(" xmlns=\"urn:schemas-microsoft-com:asm.v1\"", string.Empty);
 
         if (appSettings.ToString().IsSet())
         {

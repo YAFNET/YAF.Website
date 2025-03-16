@@ -183,6 +183,29 @@
                         </div>
                     </div>
                     <!-- End Recent Jobs -->
+
+                    <!-- Sample Application -->
+                    <div class="col">
+	                    <div class="card">
+		                    <div class="card-body">
+			                    <h5 class="card-title">
+				                    @Model.ReleaseSampleApplicationTitle
+			                    </h5>
+			                    <p class="card-text">
+                                    This Application is a Standard Visual Studio Sample ASP.NET Application (.NET Framework 4.8.1), including YAF.NET integrated as Control on a Page.
+			                    </p>
+			                    <p class="card-text">
+				                    <small class="text-muted">
+                                        <a class="btn btn-primary m-1" href="@Model.ReleaseSampleApplication">
+						                    Download
+					                    </a>
+				                    </small>
+			                    </p>
+		                    </div>
+	                    </div>
+                    </div>
+                    <!-- End Sample Application -->
+
                 </div>
                 <!-- End Recent Jobs -->
             </div>
@@ -216,12 +239,15 @@
                                 </p>
                                 <p class="card-text">
                                     <small class="text-muted">
-                                        <a class="btn btn-primary m-1" href="@Model.ReleaseMsSqlCoreUrl">
-                                            Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleaseMsSqlCoreDownloads</span>
-                                        </a>
+	                                    <a class="btn btn-primary m-1" href="@Model.ReleaseMsSqlCoreUrl">
+		                                    Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleaseMsSqlCoreDownloads</span>
+	                                    </a>
                                         <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
                                             Source Package
                                         </a>
+	                                    <a class="m-1" href="https://nuget.org/packages/YAFNET.Data.SqlServer">
+		                                    <img src="https://img.shields.io/nuget/v/YAFNET.Data.SqlServer.svg" alt="YAFNET.Data.SqlServer" />
+	                                    </a>
                                     </small>
                                 </p>
                             </div>
@@ -249,6 +275,9 @@
                                         </a>
                                         <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
                                             Source Package
+                                        </a>
+                                        <a class="m-1" href="https://nuget.org/packages/YAFNET.Data.MySQL">
+	                                        <img src="https://img.shields.io/nuget/v/YAFNET.Data.MySQL.svg" alt="YAFNET.Data.MySQL" />
                                         </a>
                                     </small>
                                 </p>
@@ -278,6 +307,9 @@
                                         <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
                                             Source Package
                                         </a>
+                                        <a class="m-1" href="https://nuget.org/packages/YAFNET.Data.PostgreSQL">
+	                                        <img src="https://img.shields.io/nuget/v/YAFNET.Data.PostgreSQL.svg" alt="YAFNET.Data.PostgreSQL" />
+                                        </a>
                                     </small>
                                 </p>
                             </div>
@@ -306,12 +338,82 @@
                                         <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
                                             Source Package
                                         </a>
+                                        <a class="m-1" href="https://nuget.org/packages/YAFNET.Data.Sqlite">
+	                                        <img src="https://img.shields.io/nuget/v/YAFNET.Data.Sqlite.svg" alt="YAFNET.Data.Sqlite" />
+                                        </a>
                                     </small>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <!-- End Recent Jobs -->
+
+                    <!-- Razor Pages Nuget Package -->
+                    <div class="col">
+	                    <div class="card">
+		                    <div class="card-body">
+			                    <h5 class="card-title">
+                                    YAFNET.RazorPages @Model.ReleaseCoreTitle Nuget Package
+			                    </h5>
+			                    <p class="card-text">
+                                    YAF.NET Razor Pages Client Library
+			                    </p>
+			                    <p class="card-text">
+				                    <small class="text-muted">
+                                        <a class="m-1" href="https://nuget.org/packages/YAFNET.RazorPages">
+                                            <img src="https://img.shields.io/nuget/v/YAFNET.RazorPages.svg" alt="YAFNET.RazorPages" />
+					                    </a>
+				                    </small>
+			                    </p>
+		                    </div>
+	                    </div>
+                    </div>
+                    <!-- End Razor Pages Nuget Package -->
+
+                    <!-- Chat Nuget Package -->
+                    <div class="col">
+	                    <div class="card">
+		                    <div class="card-body">
+			                    <h5 class="card-title">
+                                    Chat UI for @Model.ReleaseCoreTitle Nuget Package
+			                    </h5>
+			                    <p class="card-text">
+                                    Chat UI for YAF.NET
+			                    </p>
+			                    <p class="card-text">
+				                    <small class="text-muted">
+                                        <a class="m-1" href="https://nuget.org/packages/YAFNET.UI.Chat">
+                                            <img src="https://img.shields.io/nuget/v/YAFNET.UI.Chat.svg" alt="YAFNET.UI.Chat" />
+					                    </a>
+				                    </small>
+			                    </p>
+		                    </div>
+	                    </div>
+                    </div>
+                    <!-- End Chat Nuget Package -->
+
+                    <!-- Sample Application -->
+                    <div class="col">
+	                    <div class="card">
+		                    <div class="card-body">
+			                    <h5 class="card-title">
+				                    @Model.ReleaseSampleAppTitle
+			                    </h5>
+			                    <p class="card-text">
+                                    This Application is a Standard Visual Studio Sample ASP.NET Core Application (.NET 9.0), including integrated YAF.NET v4
+			                    </p>
+			                    <p class="card-text">
+				                    <small class="text-muted">
+					                    <a class="btn btn-primary m-1" href="@Model.ReleaseSampleApp">
+						                    Download
+					                    </a>
+				                    </small>
+			                    </p>
+		                    </div>
+	                    </div>
+                    </div>
+                    <!-- End Sample Application -->
+
                 </div>
                 <!-- End Recent Jobs -->
             </div>

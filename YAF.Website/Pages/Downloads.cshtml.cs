@@ -1,7 +1,7 @@
 /* Yet Another Forum.NET
  * Copyright (C) 2003-2005 Bjørnar Henden
  * Copyright (C) 2006-2013 Jaben Cargman
- * Copyright (C) 2014-2024 Ingo Herbote
+ * Copyright (C) 2014-2025 Ingo Herbote
  * https://www.yetanotherforum.net/
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -54,6 +54,20 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
     public string ReleaseDnnInstall { get; set; }
 
     /// <summary>
+    /// Gets or sets the release sample application.
+    /// </summary>
+    /// <value>The release sample application.</value>
+    [BindProperty]
+    public string ReleaseSampleApplication { get; set; }
+
+    /// <summary>
+    /// Gets or sets the release sample application.
+    /// </summary>
+    /// <value>The release sample application.</value>
+    [BindProperty]
+    public string ReleaseSampleApp { get; set; }
+
+    /// <summary>
     /// Gets or sets the release DNN install downloads.
     /// </summary>
     /// <value>The release DNN install downloads.</value>
@@ -73,6 +87,21 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
     /// <value>The release DNN title.</value>
     [BindProperty]
     public string ReleaseDnnTitle { get; set; }
+
+    /// <summary>
+    /// Gets or sets the release sample application title.
+    /// </summary>
+    /// <value>The release sample application title.</value>
+    [BindProperty]
+    public string ReleaseSampleApplicationTitle { get; set; }
+
+
+    /// <summary>
+    /// Gets or sets the release sample application title.
+    /// </summary>
+    /// <value>The release sample application title.</value>
+    [BindProperty]
+    public string ReleaseSampleAppTitle { get; set; }
 
     /// <summary>
     /// Gets or sets the release source.
@@ -278,6 +307,10 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
     {
         await this.GetDnnReleases();
 
+        await this.GetSampleApplicationReleases();
+
+        await this.GetSampleAppReleases();
+
         await this.GetMySqlReleases();
 
         await this.GetMsSqlReleases();
@@ -453,10 +486,58 @@ public class DownloadsModel : PageModel, IHaveServiceLocator
             dnnRelease = this.Get<IDataCache>().Get("DnnRelease").ToType<Release>();
         }
 
-
         ReleaseDnnInstall = dnnRelease.Assets[1].BrowserDownloadUrl;
         ReleaseDnnInstallDownloads = $"{dnnRelease.Assets[1].DownloadCount} downloads";
         ReleaseDnnSource = dnnRelease.Assets[0].BrowserDownloadUrl;
         ReleaseDnnTitle = dnnRelease.Name;
+    }
+
+    /// <summary>
+    /// Gets the Sample Application releases.
+    /// </summary>
+    private async Task GetSampleApplicationReleases()
+    {
+        var github = new GitHubClient(new ProductHeaderValue("YAF.NET"));
+
+        Release release;
+
+        if (this.Get<IDataCache>().Get("SampleApplicationRelease") == null)
+        {
+            release = await github.Repository.Release.GetLatest("YAFNET", "YAF.SampleWebApplication");
+            this.Get<IDataCache>().Set("SampleApplicationRelease", release);
+        }
+        else
+        {
+            release = this.Get<IDataCache>().Get("SampleApplicationRelease").ToType<Release>();
+        }
+
+        ReleaseSampleApplication = release.ZipballUrl;
+        ReleaseSampleApplicationTitle = release.Name;
+    }
+
+    /// <summary>
+    /// Gets the Sample App releases.
+    /// </summary>
+    private async Task GetSampleAppReleases()
+    {
+        var github = new GitHubClient(new ProductHeaderValue("YAF.NET"));
+
+        Release release;
+
+        if (this.Get<IDataCache>().Get("SampleAppRelease") == null)
+        {
+            var releases = await github.Repository.Release.GetAll("YAFNET", "YAF.SampleWebApplication");
+
+            release = releases.First(r => r.Prerelease);
+
+            this.Get<IDataCache>().Set("SampleAppRelease", release);
+        }
+        else
+        {
+            release = this.Get<IDataCache>().Get("SampleAppRelease").ToType<Release>();
+        }
+
+        ReleaseSampleApp = release.ZipballUrl;
+        ReleaseSampleAppTitle = release.Name;
     }
 }

@@ -22,6 +22,8 @@
  * under the License.
  */
 
+using System.Net;
+
 using Autofac;
 
 using Microsoft.AspNetCore.Rewrite;
@@ -114,7 +116,7 @@ public class Startup : IHaveServiceLocator
 
             if (path.Contains("/RegisterV", StringComparison.InvariantCultureIgnoreCase))
             {
-                context.Response.StatusCode = 500;
+                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 return;
             }
 
