@@ -7,10 +7,11 @@
 }
 
 <style>
-        .CodeMirror { text-align: left!important; }
+    .cm-editor {
+        text-align: left !important;
+    }
 </style>
 
-<link rel="stylesheet" href="~/css/codemirror.css">
 <link rel="stylesheet" href="~/css/forum.min.css">
 
 <!--=== Content Part ===-->
@@ -44,8 +45,7 @@
         <div class="row">
             <div class="col">
                 <input type="hidden" ID="MergedOutput" value="@Html.Encode(Model.MergedOutput)"/>
-                <div id="view">
-                </div>
+                <textarea id="view"></textarea>
             </div>
         </div>
 
@@ -77,36 +77,5 @@
 
 @section Scripts
 {
-    <script src="~/js/codemirror.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded',
-            function () {
-                CodeMirror.fromTextArea(document.getElementById("Import"),
-                    {
-                        mode: "xml",
-                        theme: "blackboard",
-                        lineNumbers: true
-                    });
-
-                const merged = document.getElementById("MergedOutput");
-
-                const target = document.getElementById("view");
-
-                if (merged != null) {
-                    CodeMirror(target, {
-                        value: htmlDecode(merged.value),
-                        mode: "xml",
-                        theme: "blackboard",
-                        lineNumbers: true
-                    });
-                }
-            });
-
-        function htmlDecode(html) {
-            const txt = document.createElement("textarea");
-            txt.innerHTML = html;
-            return txt.value;
-        }
-    </script>
+    <script src="~/js/codemirror-xml.min.js"></script>
 }
