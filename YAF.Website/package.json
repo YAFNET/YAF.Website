@@ -1,6 +1,6 @@
 {
   "name": "yaf-website",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "YAF.NET Website",
   "repository": {
     "type": "git",
@@ -15,9 +15,9 @@
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.10",
     "terser-webpack-plugin": "^5.3.14",
-    "ts-loader": "^9.5.2",
+    "ts-loader": "^9.5.4",
     "typescript": "^5.9.2",
-    "webpack": "^5.101.0",
+    "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {

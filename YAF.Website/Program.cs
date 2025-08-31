@@ -22,30 +22,91 @@
  * under the License.
  */
 
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+
+using System.Net;
+
+using Microsoft.AspNetCore.Rewrite;
+
+using YAF.Core.Context;
 using YAF.Core.Extensions;
+using YAF.Core.Hubs;
+using YAF.Core.Middleware;
+using YAF.RazorPages;
 
-namespace YAF.Website;
+var builder = WebApplication.CreateBuilder(args);
 
-/// <summary>
-/// Class Program.
-/// </summary>
-public class Program
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+builder.Host.ConfigureYafLogging();
+
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
-    /// <summary>
-    /// Defines the entry point of the application.
-    /// </summary>
-    /// <param name="args">
-    /// The arguments.
-    /// </param>
-    /// <returns>
-    /// The <see cref="Task"/>.
-    /// </returns>
-    public static Task Main(string[] args)
-    {
-        var host = Host.CreateDefaultBuilder(args).UseAutofacServiceProviderFactory()
-            .ConfigureYafLogging()
-            .ConfigureWebHostDefaults(webHostBuilder => webHostBuilder.UseStartup<Startup>()).Build();
+    containerBuilder.RegisterYafModules();
+});
 
-        return host.RunAsync();
-    }
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AddAreaPageRoute("Forums", "/SiteMap", "/Sitemap.xml");
+}).AddYafRazorPages(builder.Environment);
+
+builder.Services.AddYafCore(builder.Configuration);
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseExceptionHandler("/Forums/Error");
+
+    app.UseHsts();
+}
+
+app.Use(async (context, next) =>
+{
+    var path = context.Request.Path.ToString();
+
+    if (path.Contains("/RegisterV", StringComparison.InvariantCultureIgnoreCase))
+    {
+        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+        return;
+    }
+
+    await next();
+});
+
+app.RegisterAutofac();
+
+app.UseAntiXssMiddleware();
+
+using (var iisUrlRewriteStreamReader = File.OpenText(Path.Combine(app.Environment.ContentRootPath, "IISUrlRewrite.xml")))
+{
+    var options = new RewriteOptions().AddIISUrlRewrite(iisUrlRewriteStreamReader);
+    app.UseRewriter(options);
+}
+
+app.UseStaticFiles();
+
+app.UseSession();
+
+app.UseYafCore(BoardContext.Current.ServiceLocator);
+
+app.UseRobotsTxt(app.Environment);
+
+app.MapRazorPages();
+
+app.MapAreaControllerRoute(
+    name: "default",
+    areaName: "Forums",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllers();
+
+app.MapHub<NotificationHub>("/NotificationHub");
+app.MapHub<ChatHub>("/ChatHub");
+
+await app.RunAsync();
