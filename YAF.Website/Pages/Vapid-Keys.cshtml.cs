@@ -22,46 +22,41 @@
  * under the License.
  */
 
-#nullable enable
-using System.Diagnostics;
-
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
+using WebPush;
+
+using YAF.Core.Context;
 
 namespace YAF.Website.Pages;
 
 /// <summary>
-/// Class ErrorModel.
-/// Implements the <see cref="PageModel" />
+/// Vapid Keys Generator Page Model
 /// </summary>
-/// <seealso cref="PageModel" />
-[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-[IgnoreAntiforgeryToken]
-public class ErrorModel : PageModel
+/// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
+/// <seealso cref="YAF.Types.Interfaces.IHaveServiceLocator" />
+public class VapidKeysModel : PageModel, IHaveServiceLocator
 {
-    /// <summary>
-    /// Gets or sets the request identifier.
-    /// </summary>
-    /// <value>The request identifier.</value>
-    public string? RequestId { get; set; }
+    [BindProperty]
+    public string PublicKey { get; set; }
+
+    [BindProperty]
+    public string PrivateKey { get; set; }
 
     /// <summary>
-    /// Gets a value indicating whether [show request identifier].
+    /// Gets the service locator.
     /// </summary>
-    /// <value><c>true</c> if [show request identifier]; otherwise, <c>false</c>.</value>
-    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    /// <value>The service locator.</value>
+    public IServiceLocator ServiceLocator => BoardContext.Current.ServiceLocator;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ErrorModel"/> class.
+    /// Called when [post].
     /// </summary>
-    public ErrorModel()
+    public void OnPost()
     {
-    }
+        var keys = VapidHelper.GenerateVapidKeys();
 
-    /// <summary>
-    /// Called when [get].
-    /// </summary>
-    public void OnGet()
-    {
-        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+        this.PublicKey = keys.PublicKey;
+        this.PrivateKey = keys.PrivateKey;
     }
 }

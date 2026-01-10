@@ -1,6 +1,6 @@
 ﻿import { EditorView, basicSetup } from 'codemirror'
 import { Compartment } from '@codemirror/state';
-import { xml } from '@codemirror/lang-xml'
+import { json } from '@codemirror/lang-json'
 
 // Theme
 import { oneDark } from '@codemirror/theme-one-dark';
@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	function loadEditor(editor: HTMLTextAreaElement): void {
 		if (editor && document.documentElement.dataset.bsTheme) {
 			if (document.documentElement.dataset.bsTheme === 'dark') {
-				editorFromTextArea(editor, [basicSetup, xml(), themeConfig.of(oneDark)]);
+				editorFromTextArea(editor, [basicSetup, json(), themeConfig.of(oneDark)]);
 			} else {
-				editorFromTextArea(editor, [basicSetup, xml()]);
+				editorFromTextArea(editor, [basicSetup, json()]);
 			}
 		}
 	}
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 
 	function editorFromTextArea(textarea: HTMLTextAreaElement, extensions: any[]) {
-		const view = new EditorView({ doc: textarea.value, extensions });
+		const view = new EditorView( { doc: textarea.value, extensions });
 		textarea.parentNode?.insertBefore(view.dom, textarea);
 		textarea.style.display = 'none';
 		if (textarea.form)

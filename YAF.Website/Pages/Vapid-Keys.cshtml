@@ -1,0 +1,43 @@
+﻿@page
+@using YAF.Types.Extensions
+@model YAF.Website.Pages.VapidKeysModel
+
+@{
+	ViewData["Title"] = "Vapid Keys Generator";
+}
+
+<style>
+	.cm-editor {
+		text-align: left !important;
+	}
+</style>
+
+<link rel="stylesheet" href="~/css/forum.min.css">
+
+<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+	<h1>Configure Keys</h1>
+	<p class="lead">In order to send Web Push notifications with YAF you need to create and provide a public and private key. These keys must be stored in the <code>appsettings.json</code> and should not change. </p>
+	<p class="lead">Click ‘Generate Keys’ button to generate VAPID keys</p>
+
+	<form method="post">
+		<p><button type="submit" class="btn btn-primary">Generate Keys</button></p>
+        
+		@if (Model.PublicKey.IsSet())
+		{
+			<label class="form-label">Add the following keys to appsettings.json</label>
+			<div class="row">
+				<div class="col-md-11">
+					<pre><code class="language-json">"VapidConfiguration": {
+		    "PublicKey": "@Model.PublicKey",
+		    "PrivateKey": "@Model.PrivateKey"
+	  },</code></pre>
+				</div>
+			</div>
+		}
+	</form>
+</div>
+
+@section Scripts
+{
+	<script src="~/js/codemirror-json.min.js"></script>
+}

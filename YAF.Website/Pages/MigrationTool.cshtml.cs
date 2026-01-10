@@ -1,7 +1,7 @@
 /* Yet Another Forum.NET
  * Copyright (C) 2003-2005 Bjørnar Henden
  * Copyright (C) 2006-2013 Jaben Cargman
- * Copyright (C) 2014-2025 Ingo Herbote
+ * Copyright (C) 2014-2026 Ingo Herbote
  * https://www.yetanotherforum.net/
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -246,7 +246,7 @@ public void OnPost()
                   <probing privatePath="bin" />
                  <dependentAssembly>
             		<assemblyIdentity name="System.Diagnostics.DiagnosticSource" publicKeyToken="CC7B13FFCD2DDD51" culture="neutral"/>
-            	    <bindingRedirect oldVersion="0.0.0.0-9.0.0.9" newVersion="9.0.0.9"/>
+            	    <bindingRedirect oldVersion="0.0.0.0-10.0.0.1" newVersion="10.0.0.1"/>
             	  </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" />
@@ -254,11 +254,15 @@ public void OnPost()
                   </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="Microsoft.Bcl.AsyncInterfaces" publicKeyToken="cc7b13ffcd2ddd51"/>
-                    <bindingRedirect oldVersion="0.0.0.0-9.0.0.9" newVersion="9.0.0.9"/>
+                    <bindingRedirect oldVersion="0.0.0.0-10.0.0.1" newVersion="10.0.0.1"/>
                   </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="31bf3856ad364e35" />
                     <bindingRedirect oldVersion="0.0.0.0-4.2.3.0" newVersion="4.2.3.0" />
+                  </dependentAssembly>
+                  <dependentAssembly>
+                      <assemblyIdentity name="Microsoft.Owin.Security.Cookies" publicKeyToken="31BF3856AD364E35" culture="neutral"/>
+                      <bindingRedirect oldVersion="0.0.0.0-4.2.3.0" newVersion="4.2.3.0"/>
                   </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="Microsoft.Owin" publicKeyToken="31bf3856ad364e35" />
@@ -266,7 +270,7 @@ public void OnPost()
                   </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="Microsoft.Extensions.Primitives" publicKeyToken="ADB9793829DDAE60" culture="neutral"/>
-                    <bindingRedirect oldVersion="0.0.0.0-9.0.0.9" newVersion="9.0.0.9"/>
+                    <bindingRedirect oldVersion="0.0.0.0-10.0.0.1" newVersion="10.0.0.1"/>
                   </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="System.Runtime.CompilerServices.Unsafe" publicKeyToken="B03F5F7F11D50A3A" culture="neutral"/>
@@ -324,7 +328,7 @@ public void OnPost()
             {
                 var node = asyncInterfaces.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-9.0.0.9" newVersion="9.0.0.9"/>""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-10.0.0.1" newVersion="10.0.0.1"/>""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -333,7 +337,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                <assemblyIdentity name="Microsoft.Bcl.AsyncInterfaces" publicKeyToken="cc7b13ffcd2ddd51"/>
-                                               <bindingRedirect oldVersion="0.0.0.0-9.0.0.9" newVersion="9.0.0.9"/>
+                                               <bindingRedirect oldVersion="0.0.0.0-10.0.0.1" newVersion="10.0.0.1"/>
                                              </dependentAssembly>
                                              """);
 
@@ -416,7 +420,7 @@ public void OnPost()
             {
                 var node = extensionPrimitives.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-9.0.0.9" newVersion="9.0.0.9"/>""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-10.0.0.1" newVersion="10.0.0.1"/>""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -425,7 +429,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="Microsoft.Extensions.Primitives" publicKeyToken="ADB9793829DDAE60" culture="neutral"/>
-                                                                               <bindingRedirect oldVersion="0.0.0.0-9.0.0.9" newVersion="9.0.0.9"/>
+                                                                               <bindingRedirect oldVersion="0.0.0.0-10.0.0.1" newVersion="10.0.0.1"/>
                                                                                 </dependentAssembly>
                                              """);
 
@@ -509,7 +513,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="System.Diagnostics.DiagnosticSource" culture="neutral" publicKeyToken="CC7B13FFCD2DDD51" />
-                                                                                 <bindingRedirect oldVersion="0.0.0.0-9.0.0.9" newVersion="9.0.0.9" />
+                                                                                 <bindingRedirect oldVersion="0.0.0.0-10.0.0.1" newVersion="10.0.0.1" />
                                                                                 </dependentAssembly>
                                              """);
 
@@ -519,7 +523,7 @@ public void OnPost()
             {
                 var node = systemDiagnosticSource.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-9.0.0.9" newVersion="9.0.0.9" />""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-10.0.0.1" newVersion="10.0.0.1" />""");
 
                 node.ReplaceWith(replaceNode);
             }

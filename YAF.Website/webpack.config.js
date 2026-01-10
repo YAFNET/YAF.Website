@@ -6,7 +6,8 @@ const pckg = require('./package.json');
 module.exports = [
 	{
 		entry: {
-			'codemirror-xml': './wwwroot/lib/codemirror-xml.ts'
+			'codemirror-xml': './wwwroot/lib/codemirror-xml.ts',
+			'codemirror-json': './wwwroot/lib/codemirror-json.ts'
 		},
 		output: {
 			filename: '[name].min.js',
