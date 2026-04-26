@@ -1,7 +1,7 @@
 /* Yet Another Forum.NET
  * Copyright (C) 2003-2005 Bjørnar Henden
  * Copyright (C) 2006-2013 Jaben Cargman
- * Copyright (C) 2014-2025 Ingo Herbote
+ * Copyright (C) 2014-2026 Ingo Herbote
  * https://www.yetanotherforum.net/
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -25,9 +25,9 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 
-using System.Net;
-
 using Microsoft.AspNetCore.Rewrite;
+
+using System.Net;
 
 using YAF.Core.Context;
 using YAF.Core.Extensions;
@@ -51,7 +51,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AddAreaPageRoute("Forums", "/SiteMap", "/Sitemap.xml");
 }).AddYafRazorPages(builder.Environment);
 
-builder.Services.AddYafCore(builder.Configuration);
+builder.Services.AddYafCore(builder.Configuration, "/, /Forums, /Forums/Board");
 
 var app = builder.Build();
 
