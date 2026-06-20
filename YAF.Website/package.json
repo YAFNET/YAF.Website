@@ -1,6 +1,6 @@
 {
   "name": "yaf-website",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "description": "YAF.NET Website",
   "repository": {
     "type": "git",
@@ -14,11 +14,11 @@
   "homepage": "https://github.com/YAFNET/YAF.Website#readme",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.13",
-    "terser-webpack-plugin": "^5.5.0",
-    "ts-loader": "^9.5.7",
+    "terser-webpack-plugin": "^5.6.1",
+    "ts-loader": "^9.6.1",
     "typescript": "^6.0.3",
-    "webpack": "^5.106.2",
-    "webpack-cli": "^7.0.2"
+    "webpack": "^5.107.2",
+    "webpack-cli": "^7.0.3"
   },
   "dependencies": {
     "@codemirror/lang-json": "^6.0.2",
