@@ -212,29 +212,20 @@ public void OnPost()
         var rewriterNode = webConfig.XPathSelectElement(
             "/configuration/configSections/section[starts-with(@type,'Intelligencia.UrlRewriter')]");
 
-        if (rewriterNode != null)
-        {
-            rewriterNode.Attribute("type").Value = rewriterNode.Attribute("type").Value
-                .Replace("Intelligencia.UrlRewriter", "YAF.UrlRewriter");
-        }
+        rewriterNode?.Attribute("type").Value = rewriterNode.Attribute("type").Value
+            .Replace("Intelligencia.UrlRewriter", "YAF.UrlRewriter");
 
         var rewriterNode2 = webConfig.XPathSelectElement(
             "/configuration/system.webServer/modules/add[starts-with(@type,'Intelligencia.UrlRewriter')]");
 
-        if (rewriterNode2 != null)
-        {
-            rewriterNode2.Attribute("type").Value = rewriterNode2.Attribute("type").Value
-                .Replace("Intelligencia.UrlRewriter", "YAF.UrlRewriter");
-        }
+        rewriterNode2?.Attribute("type").Value = rewriterNode2.Attribute("type").Value
+            .Replace("Intelligencia.UrlRewriter", "YAF.UrlRewriter");
 
         var rewriterNode3 = webConfig.XPathSelectElement(
             "/configuration/system.web/httpModules/add[starts-with(@type,'Intelligencia.UrlRewriter')]");
 
-        if (rewriterNode3 != null)
-        {
-            rewriterNode3.Attribute("type").Value = rewriterNode3.Attribute("type").Value
-                .Replace("Intelligencia.UrlRewriter", "YAF.UrlRewriter");
-        }
+        rewriterNode3?.Attribute("type").Value = rewriterNode3.Attribute("type").Value
+            .Replace("Intelligencia.UrlRewriter", "YAF.UrlRewriter");
 
         // Update Depended Assembly
         var assemblyBindingNode = webConfig.XPathSelectElement("/configuration/runtime");
@@ -246,7 +237,7 @@ public void OnPost()
                   <probing privatePath="bin" />
                  <dependentAssembly>
             		<assemblyIdentity name="System.Diagnostics.DiagnosticSource" publicKeyToken="CC7B13FFCD2DDD51" culture="neutral"/>
-            	    <bindingRedirect oldVersion="0.0.0.0-10.0.0.9" newVersion="10.0.0.10"/>
+            	    <bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13"/>
             	  </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" />
@@ -254,7 +245,7 @@ public void OnPost()
                   </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="Microsoft.Bcl.AsyncInterfaces" publicKeyToken="cc7b13ffcd2ddd51"/>
-                    <bindingRedirect oldVersion="0.0.0.0-10.0.0.10" newVersion="10.0.0.10"/>
+                    <bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13"/>
                   </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="31bf3856ad364e35" />
@@ -270,7 +261,7 @@ public void OnPost()
                   </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="Microsoft.Extensions.Primitives" publicKeyToken="ADB9793829DDAE60" culture="neutral"/>
-                    <bindingRedirect oldVersion="0.0.0.0-10.0.0.10" newVersion="10.0.0.10"/>
+                    <bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13"/>
                   </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="System.Runtime.CompilerServices.Unsafe" publicKeyToken="B03F5F7F11D50A3A" culture="neutral"/>
@@ -282,7 +273,7 @@ public void OnPost()
                   </dependentAssembly>
                   <dependentAssembly>
                     <assemblyIdentity name="System.Memory" culture="neutral" publicKeyToken="cc7b13ffcd2ddd51" />
-                    <bindingRedirect oldVersion="0.0.0.0-4.0.4.0" newVersion="4.0.4.0" />
+                    <bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13" />
                   </dependentAssembly>
                   <dependentAssembly>
                       <assemblyIdentity name="System.Buffers" culture="neutral" publicKeyToken="CC7B13FFCD2DDD51" />
@@ -328,7 +319,7 @@ public void OnPost()
             {
                 var node = asyncInterfaces.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-10.0.0.10" newVersion="10.0.0.10"/>""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13"/>""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -337,7 +328,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                <assemblyIdentity name="Microsoft.Bcl.AsyncInterfaces" publicKeyToken="cc7b13ffcd2ddd51"/>
-                                               <bindingRedirect oldVersion="0.0.0.0-10.0.0.10" newVersion="10.0.0.10"/>
+                                               <bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13"/>
                                              </dependentAssembly>
                                              """);
 
@@ -420,7 +411,7 @@ public void OnPost()
             {
                 var node = extensionPrimitives.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-10.0.0.10" newVersion="10.0.0.10"/>""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13"/>""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -429,7 +420,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="Microsoft.Extensions.Primitives" publicKeyToken="ADB9793829DDAE60" culture="neutral"/>
-                                                                               <bindingRedirect oldVersion="0.0.0.0-10.0.0.10" newVersion="10.0.0.10"/>
+                                                                               <bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13"/>
                                                                                 </dependentAssembly>
                                              """);
 
@@ -443,7 +434,7 @@ public void OnPost()
             {
                 var node = compilerUnsafe.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-6.0.2.0" newVersion="6.0.2.0"/>""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-6.0.3.0" newVersion="6.0.3.0"/>""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -452,7 +443,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="System.Runtime.CompilerServices.Unsafe" publicKeyToken="B03F5F7F11D50A3A" culture="neutral"/>
-                                                                               <bindingRedirect oldVersion="0.0.0.0-6.0.2.0" newVersion="6.0.2.0"/>
+                                                                               <bindingRedirect oldVersion="0.0.0.0-6.0.3.0" newVersion="6.0.3.0"/>
                                                                                 </dependentAssembly>
                                              """);
 
@@ -489,7 +480,7 @@ public void OnPost()
             {
                 var node = systemMemory.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-4.0.4.0" newVersion="4.0.4.0" />""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13" />""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -498,7 +489,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="System.Memory" culture="neutral" publicKeyToken="cc7b13ffcd2ddd51" />
-                                                                                 <bindingRedirect oldVersion="0.0.0.0-4.0.4.0" newVersion="4.0.4.0" />
+                                                                                 <bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13" />
                                                                                 </dependentAssembly>
                                              """);
 
@@ -513,7 +504,7 @@ public void OnPost()
                 var addNode = XElement.Parse("""
                                              <dependentAssembly xmlns="urn:schemas-microsoft-com:asm.v1">
                                                                                <assemblyIdentity name="System.Diagnostics.DiagnosticSource" culture="neutral" publicKeyToken="CC7B13FFCD2DDD51" />
-                                                                                 <bindingRedirect oldVersion="0.0.0.0-10.0.0.10" newVersion="10.0.0.10" />
+                                                                                 <bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13" />
                                                                                 </dependentAssembly>
                                              """);
 
@@ -523,7 +514,7 @@ public void OnPost()
             {
                 var node = systemDiagnosticSource.NextNode;
 
-                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-10.0.0.10" newVersion="10.0.0.10" />""");
+                var replaceNode = XElement.Parse("""<bindingRedirect oldVersion="0.0.0.0-10.0.0.13" newVersion="10.0.0.13" />""");
 
                 node.ReplaceWith(replaceNode);
             }
@@ -539,75 +530,51 @@ public void OnPost()
         var resourceHandlerNode = webConfig.XPathSelectElement(
             "/configuration/system.web/httpHandlers/add[starts-with(@type,'YAF.YafResourceHandler')]");
 
-        if (resourceHandlerNode != null)
-        {
-            resourceHandlerNode.Attribute("type").Value = resourceHandlerNode.Attribute("type").Value.Replace(
-                "YAF.YafResourceHandler, YAF",
-                "YAF.Core.Handlers.ResourceHandler, YAF.Core");
-        }
+        resourceHandlerNode?.Attribute("type").Value = resourceHandlerNode.Attribute("type").Value.Replace(
+            "YAF.YafResourceHandler, YAF",
+            "YAF.Core.Handlers.ResourceHandler, YAF.Core");
 
         var resourceHandlerNode2 = webConfig.XPathSelectElement(
             "/configuration/system.webServer/handlers/add[starts-with(@type,'YAF.YafResourceHandler')]");
 
-        if (resourceHandlerNode2 != null)
-        {
-            resourceHandlerNode2.Attribute("type").Value = resourceHandlerNode2.Attribute("type").Value.Replace(
-                "YAF.YafResourceHandler, YAF",
-                "YAF.Core.Handlers.ResourceHandler, YAF.Core");
-        }
+        resourceHandlerNode2?.Attribute("type").Value = resourceHandlerNode2.Attribute("type").Value.Replace(
+            "YAF.YafResourceHandler, YAF",
+            "YAF.Core.Handlers.ResourceHandler, YAF.Core");
 
         // Change all Name Spaces
         var nameSpaceNode1 = webConfig.XPathSelectElement(
             "/configuration/system.web/pages/namespaces/add[@namespace='YAF.Classes']");
 
-        if (nameSpaceNode1 != null)
-        {
-            nameSpaceNode1.Attribute("namespace").Value = nameSpaceNode1.Attribute("namespace").Value.Replace(
-                "YAF.Classes",
-                "YAF.Configuration");
-        }
+        nameSpaceNode1?.Attribute("namespace").Value = nameSpaceNode1.Attribute("namespace").Value.Replace(
+            "YAF.Classes",
+            "YAF.Configuration");
 
         var nameSpaceNode2 = webConfig.XPathSelectElement(
             "/configuration/system.web/pages/namespaces/add[@namespace='YAF.Controls']");
 
-        if (nameSpaceNode2 != null)
-        {
-            nameSpaceNode2.Attribute("namespace").Value = nameSpaceNode2.Attribute("namespace").Value.Replace(
-                "YAF.Controls",
-                "YAF.Web.Controls");
-        }
+        nameSpaceNode2?.Attribute("namespace").Value = nameSpaceNode2.Attribute("namespace").Value.Replace(
+            "YAF.Controls",
+            "YAF.Web.Controls");
 
         var nameSpaceNode3 = webConfig.XPathSelectElement(
             "/configuration/system.web/pages/namespaces/add[@namespace='YAF.Classes.UI']");
 
-        if (nameSpaceNode3 != null)
-        {
-            nameSpaceNode3.Attribute("namespace").Value = "YAF.Types.Interfaces";
-        }
+        nameSpaceNode3?.Attribute("namespace").Value = "YAF.Types.Interfaces";
 
         var nameSpaceNode4 = webConfig.XPathSelectElement(
             "/configuration/system.web/pages/namespaces/add[@namespace='YAF.Classes.Core']");
 
-        if (nameSpaceNode4 != null)
-        {
-            nameSpaceNode4.Attribute("namespace").Value = "YAF.Core";
-        }
+        nameSpaceNode4?.Attribute("namespace").Value = "YAF.Core";
 
         var nameSpaceNode5 = webConfig.XPathSelectElement(
             "/configuration/system.web/pages/namespaces/add[@namespace='YAF.Classes.Data']");
 
-        if (nameSpaceNode5 != null)
-        {
-            nameSpaceNode5.Attribute("namespace").Value = "YAF.Web";
-        }
+        nameSpaceNode5?.Attribute("namespace").Value = "YAF.Web";
 
         var nameSpaceNode6 = webConfig.XPathSelectElement(
             "/configuration/system.web/pages/namespaces/add[@namespace='YAF.Classes.Utils']");
 
-        if (nameSpaceNode6 != null)
-        {
-            nameSpaceNode6.Attribute("namespace").Value = "YAF.Types";
-        }
+        nameSpaceNode6?.Attribute("namespace").Value = "YAF.Types";
 
         // Change all Controls
         var controlNode1 = webConfig.XPathSelectElement(
