@@ -24,7 +24,7 @@
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-using WebPush;
+using WebEssentials.AspNetCore.Pwa.WebPush;
 
 using YAF.Core.Context;
 
