@@ -1,0 +1,54 @@
+@using YAF.Web.HtmlHelpers
+
+@* Model: true on forum pages, adds the forum footer info (version, powered by) to the bottom row *@
+@model bool
+
+<footer class="border-top mt-5 pt-4 pb-3">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-12 col-lg-5">
+                <img class="mb-2" src="~/Forums/images/Logos/YAFLogo.svg" alt="YetAnotherForum.NET" height="48">
+                <p class="small text-body-secondary mb-0">
+                    YAF.NET is an open source .NET forum project.
+                </p>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <h2 class="h6 text-uppercase fw-semibold">Project</h2>
+                <ul class="list-unstyled small">
+                    <li><a class="link-secondary" asp-area="" asp-page="/GetStarted">Get Started</a></li>
+                    <li><a class="link-secondary" asp-area="" asp-page="/Downloads">Downloads</a></li>
+                    <li><a class="link-secondary" asp-area="" asp-page="/Features">Features</a></li>
+                    <li><a class="link-secondary" href="https://github.com/YAFNET/YAFNET/releases" target="_blank" rel="noopener">Releases</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <h2 class="h6 text-uppercase fw-semibold">Resources</h2>
+                <ul class="list-unstyled small">
+                    <li><a class="link-secondary" href="https://github.com/YAFNET/YAFNET/wiki" target="_blank" rel="noopener">Documentation</a></li>
+                    <li><a class="link-secondary" asp-area="" asp-page="/Key">Generate Machine Key</a></li>
+                    <li><a class="link-secondary" asp-area="" asp-page="/MigrationTool">Web.Config Migration Tool</a></li>
+                    <li><a class="link-secondary" asp-area="" asp-page="/Vapid-Keys">Vapid Keys Generator</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2">
+                <h2 class="h6 text-uppercase fw-semibold">Community</h2>
+                <ul class="list-unstyled small">
+                    <li><a class="link-secondary" asp-area="Forums" asp-page="/Index">Support Forum</a></li>
+                    <li><a class="link-secondary" href="https://github.com/YAFNET/YAFNET" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a class="link-secondary" href="https://hub.docker.com/r/yafnet/yafnet" target="_blank" rel="noopener">Docker Hub</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-2 border-top mt-3 pt-3 small text-body-secondary">
+            <span>
+                &copy; 2003&ndash;@DateTime.Now.Year YetAnotherForum.NET &amp; Ingo Herbote.
+                Licensed under the <a class="link-secondary" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache License 2.0</a>.
+            </span>
+            @if (Model)
+            {
+                <span>@Html.FooterHelper()</span>
+            }
+        </div>
+    </div>
+</footer>
