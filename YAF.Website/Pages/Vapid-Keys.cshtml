@@ -6,38 +6,75 @@
 	ViewData["Title"] = "Vapid Keys Generator";
 }
 
-<style>
-	.cm-editor {
-		text-align: left !important;
-	}
-</style>
-
-<link rel="stylesheet" href="~/css/forum.min.css">
-
 <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-	<h1>Configure Keys</h1>
-	<p class="lead">In order to send Web Push notifications with YAF you need to create and provide a public and private key. These keys must be stored in the <code>appsettings.json</code> and should not change. </p>
-	<p class="lead">Click ‘Generate Keys’ button to generate VAPID keys</p>
+	<span class="d-inline-flex align-items-center justify-content-center rounded-circle text-bg-primary fs-3 mb-3" style="width:4rem;height:4rem">
+		<i class="fa-solid fa-bell"></i>
+	</span>
+	<h1 class="display-5">VAPID Keys Generator</h1>
+	<p class="lead">Generate the public and private key YAF.NET needs to send Web Push notifications to your members' browsers.</p>
+	<span class="badge rounded-pill text-bg-primary fs-6">YAF.NET v4</span>
+</div>
 
-	<form method="post">
-		<p><button type="submit" class="btn btn-primary">Generate Keys</button></p>
-        
-		@if (Model.PublicKey.IsSet())
-		{
-			<label class="form-label">Add the following keys to appsettings.json</label>
-			<div class="row">
-				<div class="col-md-11">
-					<pre><code class="language-json">"VapidConfiguration": {
-		    "PublicKey": "@Model.PublicKey",
-		    "PrivateKey": "@Model.PrivateKey"
-	  },</code></pre>
+<div class="row justify-content-center">
+	<div class="col-lg-10">
+		<div class="row g-4 mb-4">
+			<div class="col-md-4">
+				<div class="card h-100 shadow-sm border-0">
+					<div class="card-body">
+						<h2 class="h5"><span class="badge text-bg-primary me-2">1</span>Generate</h2>
+						<p class="card-text text-body-secondary mb-0">Click <strong>Generate Keys</strong> to create a new VAPID key pair.</p>
+					</div>
 				</div>
 			</div>
-		}
-	</form>
+			<div class="col-md-4">
+				<div class="card h-100 shadow-sm border-0">
+					<div class="card-body">
+						<h2 class="h5"><span class="badge text-bg-primary me-2">2</span>Configure</h2>
+						<p class="card-text text-body-secondary mb-0">Add the keys to your <code>appsettings.json</code>.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card h-100 shadow-sm border-0">
+					<div class="card-body">
+						<h2 class="h5"><span class="badge text-bg-primary me-2">3</span>Keep Them</h2>
+						<p class="card-text text-body-secondary mb-0">Don't change the keys later, or existing push subscriptions stop working.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card shadow-sm">
+			<div class="card-body p-4">
+				<form method="post" class="text-center">
+					<button type="submit" class="btn btn-primary btn-lg">
+						<i class="fa-solid fa-wand-magic-sparkles me-1"></i>@(Model.PublicKey.IsSet() ? "Generate New Keys" : "Generate Keys")
+					</button>
+				</form>
+
+				@if (Model.PublicKey.IsSet())
+				{
+					<div class="d-flex justify-content-between align-items-center mt-4 mb-2">
+						<h2 class="h5 mb-0">Add to <code>appsettings.json</code></h2>
+						<button type="button" class="btn btn-sm btn-outline-secondary copy-button" data-copy-target="vapidConfig">
+							<i class="fa-solid fa-copy me-1"></i><span>Copy</span>
+						</button>
+					</div>
+<pre class="bg-body-tertiary p-3 rounded-3 text-wrap text-break"><code id="vapidConfig" class="language-json">"VapidConfiguration": {
+    "PublicKey": "@Model.PublicKey",
+    "PrivateKey": "@Model.PrivateKey"
+},</code></pre>
+					<div class="alert alert-warning d-flex align-items-center mb-0">
+						<i class="fa-solid fa-lock fs-4 me-3"></i>
+						<div>Keep the <strong>private key</strong> secret. Keys are generated fresh on every click and are not stored on this site.</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
 </div>
 
 @section Scripts
 {
-	<script src="~/js/codemirror-json.min.js"></script>
+	<partial name="_CopyScript" />
 }

@@ -1,0 +1,392 @@
+@page
+@model YAF.Website.Pages.GetStartedModel
+
+@{
+    ViewData["Title"] = "Get Started - Run YAF.NET with Docker";
+}
+
+<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Get Started with YAF.NET</h1>
+    <p class="lead">
+        The fastest way to run your own YAF.NET forum is with Docker. Pick a database, start the containers and finish the installation wizard in your browser.
+    </p>
+</div>
+
+<!-- Prerequisites -->
+<h2 class="mt-4">
+    <span class="badge text-bg-primary me-2">1</span>Prerequisites
+</h2>
+<ul>
+    <li><a href="https://docs.docker.com/get-started/get-docker/" target="_blank">Docker</a> with the Docker Compose plugin (included in Docker Desktop)</li>
+    <li>A free port on your machine, the examples use <code>8001</code> for the forum</li>
+</ul>
+<p>
+    Ready-made images are published on <a href="https://hub.docker.com/r/yafnet/yafnet" target="_blank">Docker Hub</a>, one tag per database:
+    <code>latest-sqlite</code>, <code>latest-sqlserver</code>, <code>latest-mysql</code> and <code>latest-postgresql</code>.
+</p>
+
+<!-- Compose File -->
+<h2 class="mt-4">
+    <span class="badge text-bg-primary me-2">2</span>Create a <code>docker-compose.yml</code>
+</h2>
+<p>
+    Create an empty folder, for example <code>yafnet</code>, and save one of the following files in it as <code>docker-compose.yml</code>.
+    If you are not sure which database to use, start with <strong>SQLite</strong>: it needs no separate database server.
+</p>
+
+<ul class="nav nav-tabs" id="dbTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="sqlite-tab" data-bs-toggle="tab" data-bs-target="#sqlite" type="button" role="tab" aria-controls="sqlite" aria-selected="true">SQLite</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="sqlserver-tab" data-bs-toggle="tab" data-bs-target="#sqlserver" type="button" role="tab" aria-controls="sqlserver" aria-selected="false">SQL Server</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="mysql-tab" data-bs-toggle="tab" data-bs-target="#mysql" type="button" role="tab" aria-controls="mysql" aria-selected="false">MySQL / MariaDB</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="postgresql-tab" data-bs-toggle="tab" data-bs-target="#postgresql" type="button" role="tab" aria-controls="postgresql" aria-selected="false">PostgreSQL</button>
+    </li>
+</ul>
+
+<div class="tab-content border border-top-0 rounded-bottom p-3 mb-3" id="dbTabsContent">
+    <!-- SQLite -->
+    <div class="tab-pane fade show active" id="sqlite" role="tabpanel" aria-labelledby="sqlite-tab">
+        <p>A single container. The database file is stored in the <code>sqlite-data</code> volume, so it survives container updates.</p>
+        <pre class="bg-body-tertiary p-3 rounded"><code class="language-yaml">networks:
+  dev:
+    driver: bridge
+
+services:
+  yafnet:
+    image: yafnet/yafnet:latest-sqlite
+    environment:
+      - ConnectionStrings__DefaultConnection=Data Source=/data/yafnet.db;Version=3;
+      - BoardConfiguration__ConnectionProviderName=System.Data.SQLite
+      - ASPNETCORE_URLS=http://+:89
+    container_name: yafnet
+    volumes:
+      - sqlite-data:/data
+    ports:
+      - "8001:89"
+    networks:
+      - dev
+
+volumes:
+  sqlite-data:</code></pre>
+    </div>
+
+    <!-- SQL Server -->
+    <div class="tab-pane fade" id="sqlserver" role="tabpanel" aria-labelledby="sqlserver-tab">
+        <p>
+            Runs Microsoft SQL Server next to the forum. A one-time <code>sql-server-init</code> container creates the <code>yaf</code> database before the forum starts.
+        </p>
+        <pre class="bg-body-tertiary p-3 rounded"><code class="language-yaml">networks:
+  dev:
+    driver: bridge
+
+services:
+  yafnet:
+    image: yafnet/yafnet:latest-sqlserver
+    depends_on:
+      sql-server-db:
+        condition: service_healthy
+      sql-server-init:
+        condition: service_completed_successfully
+    environment:
+      - ConnectionStrings__DefaultConnection=data source=sql-server-db;Initial Catalog=yaf;User Id=sa;Password=MyPass@@word;TrustServerCertificate=true
+      - BoardConfiguration__ConnectionProviderName=Microsoft.Data.SqlClient
+      - ASPNETCORE_URLS=http://+:89
+    container_name: yafnet
+    ports:
+      - "8001:89"
+    networks:
+      - dev
+
+  sql-server-db:
+    container_name: sql-server-db
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    environment:
+      - MSSQL_SA_PASSWORD=MyPass@@word
+      - ACCEPT_EULA=Y
+    volumes:
+      - mssql-data:/var/opt/mssql
+    healthcheck:
+      test: >
+        /opt/mssql-tools18/bin/sqlcmd
+        -S localhost -U sa -P "MyPass@@word"
+        -No -Q "SELECT 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - dev
+
+  sql-server-init:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    depends_on:
+      sql-server-db:
+        condition: service_healthy
+    environment:
+      - MSSQL_SA_PASSWORD=MyPass@@word
+    volumes:
+      - ./docker/yaf-sqlserver:/init-db:ro
+    entrypoint: /bin/bash /init-db/create-db.sh
+    networks:
+      - dev
+    restart: "no"
+
+volumes:
+  mssql-data:</code></pre>
+        <p>Save the init script as <code>docker/yaf-sqlserver/create-db.sh</code> next to the compose file:</p>
+        <pre class="bg-body-tertiary p-3 rounded"><code class="language-yaml">#!/bin/bash
+set -e
+
+/opt/mssql-tools18/bin/sqlcmd \
+  -S "sql-server-db" \
+  -U sa \
+  -P "${MSSQL_SA_PASSWORD}" \
+  -No \
+  -Q "
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'yaf')
+BEGIN
+    CREATE DATABASE [yaf];
+END
+"</code></pre>
+    </div>
+
+    <!-- MySQL / MariaDB -->
+    <div class="tab-pane fade" id="mysql" role="tabpanel" aria-labelledby="mysql-tab">
+        <p>
+            Runs MariaDB (MySQL compatible) next to the forum. A one-time <code>mariadb-init</code> container creates the <code>yaf</code> database before the forum starts.
+        </p>
+        <pre class="bg-body-tertiary p-3 rounded"><code class="language-yaml">networks:
+  dev:
+    driver: bridge
+
+services:
+  yafnet:
+    image: yafnet/yafnet:latest-mysql
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      mariadb-init:
+        condition: service_completed_successfully
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=mariadb;Database=yaf;User=root;Password=MyPass@@word;
+      - BoardConfiguration__ConnectionProviderName=MySql.Data.MySqlClient
+      - ASPNETCORE_URLS=http://+:89
+    container_name: yafnet
+    ports:
+      - "8001:89"
+    networks:
+      - dev
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=MyPass@@word
+      - MARIADB_DATABASE=mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - dev
+
+  mariadb-init:
+    image: mariadb
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      - MARIADB_ROOT_PASSWORD=MyPass@@word
+    volumes:
+      - ./docker/yaf-mysql:/init-db:ro
+    entrypoint: /bin/bash /init-db/create-db.sh
+    networks:
+      - dev
+    restart: "no"
+
+volumes:
+  mysql-data:</code></pre>
+        <p>Save the init script as <code>docker/yaf-mysql/create-db.sh</code> next to the compose file:</p>
+        <pre class="bg-body-tertiary p-3 rounded"><code class="language-yaml">#!/bin/bash
+set -e
+
+mariadb \
+  -h "mariadb" \
+  -u root \
+  -p"${MARIADB_ROOT_PASSWORD}" \
+  -e "CREATE DATABASE IF NOT EXISTS \`yaf\`;"</code></pre>
+    </div>
+
+    <!-- PostgreSQL -->
+    <div class="tab-pane fade" id="postgresql" role="tabpanel" aria-labelledby="postgresql-tab">
+        <p>
+            Runs PostgreSQL next to the forum. A one-time <code>postgres-init</code> container creates the <code>yaf</code> database before the forum starts.
+        </p>
+        <pre class="bg-body-tertiary p-3 rounded"><code class="language-yaml">networks:
+  dev:
+    driver: bridge
+
+services:
+  yafnet:
+    image: yafnet/yafnet:latest-postgresql
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      postgres-init:
+        condition: service_completed_successfully
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Database=yaf;Username=postgres;Password=MyPass@@word
+      - BoardConfiguration__ConnectionProviderName=Npgsql Data Provider
+      - ASPNETCORE_URLS=http://+:89
+    container_name: yafnet
+    ports:
+      - "8001:89"
+    networks:
+      - dev
+
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:alpine
+    environment:
+      - POSTGRES_PASSWORD=MyPass@@word
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgresql-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - dev
+
+  postgres-init:
+    image: postgres:alpine
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    environment:
+      - PGPASSWORD=MyPass@@word
+    volumes:
+      - ./docker/yaf-postgresql:/init-db:ro
+    entrypoint: /bin/sh /init-db/create-db.sh
+    networks:
+      - dev
+    restart: "no"
+
+volumes:
+  postgresql-data:</code></pre>
+        <p>Save the init script as <code>docker/yaf-postgresql/create-db.sh</code> next to the compose file:</p>
+<pre class="bg-body-tertiary p-3 rounded"><code>#!/bin/sh
+set -e
+
+psql -h "postgres-db" -U postgres \
+  -c "SELECT 1 FROM pg_database WHERE datname = 'yaf'" | grep -q 1 \
+  || psql -h "postgres-db" -U postgres -c "CREATE DATABASE yaf;"</code></pre>
+    </div>
+</div>
+
+<div class="alert alert-warning">
+    <h4 class="alert-heading">Change the default password</h4>
+    <p class="mb-0">
+        The examples use <code>MyPass@@word</code>. Replace it with your own strong password <strong>everywhere</strong> it appears in the file before you start the containers.
+    </p>
+</div>
+<p>
+    The compose and init files are also available in the
+    <a href="https://github.com/YAFNET/YAFNET/tree/master/yafsrc" target="_blank">YAF.NET GitHub repository</a>
+    (<code>docker-compose-*.yml</code> and the <code>docker</code> folder).
+</p>
+
+<!-- Start -->
+<h2 class="mt-4">
+    <span class="badge text-bg-primary me-2">3</span>Start the Forum
+</h2>
+<p>Open a terminal in the folder with your <code>docker-compose.yml</code> and run:</p>
+<pre class="bg-body-tertiary p-3 rounded"><code>docker compose up -d</code></pre>
+<p>
+    Docker downloads the images and starts the containers. With SQL Server, MySQL or PostgreSQL the forum waits until the database is ready, which can take up to a minute on the first start.
+</p>
+
+<!-- Install -->
+<h2 class="mt-4">
+    <span class="badge text-bg-primary me-2">4</span>Run the Installation Wizard
+</h2>
+<p>
+    Open <a href="http://localhost:8001" target="_blank">http://localhost:8001</a> in your browser.
+    On the first start YAF.NET redirects you to the installation wizard, which:
+</p>
+<ol>
+    <li>tests the database connection,</li>
+    <li>creates the forum tables,</li>
+    <li>creates your board and the administrator account.</li>
+</ol>
+<p>After the wizard has finished you can log in with the administrator account and configure your forum in the Admin Control Panel.</p>
+
+<!-- Configuration -->
+<h2 class="mt-4">
+    <span class="badge text-bg-primary me-2">5</span>Configure Mail (Recommended)
+</h2>
+<p>
+    YAF.NET sends mails for registrations, password resets and notifications. Add your mail server to the <code>environment</code> section of the <code>yafnet</code> service:
+</p>
+<pre class="bg-body-tertiary p-3 rounded"><code>      - MailConfiguration__Host=smtp.example.com
+      - MailConfiguration__Port=587
+      - MailConfiguration__UserName=your-user
+      - MailConfiguration__Password=your-password</code></pre>
+<p>Then apply the change with <code>docker compose up -d</code>.</p>
+
+<!-- Commands -->
+<h2 class="mt-4">Useful Commands</h2>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Command</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>docker compose logs -f yafnet</code></td>
+                <td>Show the forum log output</td>
+            </tr>
+            <tr>
+                <td><code>docker compose down</code></td>
+                <td>Stop and remove the containers, your data stays in the volumes</td>
+            </tr>
+            <tr>
+                <td><code>docker compose pull &amp;&amp; docker compose up -d</code></td>
+                <td>Update to the latest YAF.NET images</td>
+            </tr>
+            <tr>
+                <td><code>docker compose down -v</code></td>
+                <td>Stop the containers and <strong>delete all data</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="alert alert-info">
+    <h4 class="alert-heading">Going to Production?</h4>
+    <p class="mb-0">
+        Put a reverse proxy such as nginx, Caddy or Traefik in front of the <code>yafnet</code> container to serve the forum over HTTPS,
+        and remove the database <code>ports</code> mapping if you added one, so the database is not reachable from outside.
+    </p>
+</div>
+
+<div class="text-center mt-4">
+    <p>Need help? Have a look at the <a href="https://github.com/YAFNET/YAFNET/wiki" target="_blank">Documentation</a> or ask in the <a asp-area="Forums" asp-page="/Index">Support Forum</a>.</p>
+</div>

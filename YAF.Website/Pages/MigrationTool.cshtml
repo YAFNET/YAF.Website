@@ -9,73 +9,92 @@
 <style>
     .cm-editor {
         text-align: left !important;
+        max-height: 32rem;
     }
 </style>
 
-<link rel="stylesheet" href="~/css/forum.min.css">
-
-<!--=== Content Part ===-->
 <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1>Migrate Existing Web.Config to the Latest YAF.NET v3.x.x Version</h1>
-    <p class="lead">This tool allows you to migrate an existing web.config from a Previous Version to the newest Version.</p>
-    
-    <div class="alert alert-danger show">
-        <h4 class="alert-heading">Important:</h4>
-        <p>This is only for <span class="badge text-bg-danger">YAF.NET v3.x.x</span>, and not for version <span class="badge text-bg-danger">4.0.0</span> or higher</p>
+    <span class="d-inline-flex align-items-center justify-content-center rounded-circle text-bg-primary fs-3 mb-3" style="width:4rem;height:4rem">
+        <i class="fa-solid fa-right-left"></i>
+    </span>
+    <h1 class="display-5">Web.Config Migration Tool</h1>
+    <p class="lead">Migrate the <code>web.config</code> of a previous YAF.NET version to the latest YAF.NET v3.x.x version.</p>
+    <span class="badge rounded-pill text-bg-secondary fs-6">YAF.NET v3.x.x only</span>
+</div>
+
+<div class="alert alert-warning d-flex align-items-center">
+    <i class="fa-solid fa-triangle-exclamation fs-4 me-3"></i>
+    <div>
+        This tool is only for <strong>YAF.NET v3.x.x</strong> (.NET Framework), not for version <strong>4.0.0</strong> or higher.
+        Always keep a backup of your original <code>web.config</code>.
+    </div>
+</div>
+
+@if (Model.ErrorMessage.IsSet())
+{
+    <div class="alert alert-danger d-flex" role="alert">
+        <i class="fa-solid fa-circle-xmark fs-4 me-3"></i>
+        <div>
+            <h2 class="h5 alert-heading">The migration failed</h2>
+            <p class="mb-1">@Model.ErrorMessage</p>
+            <p class="mb-0 small">Please report the error in the <a asp-area="Forums" asp-page="/Index">Support Forum</a>.</p>
+        </div>
+    </div>
+}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header d-flex align-items-center">
+        <span class="badge text-bg-primary me-2">1</span>
+        <h2 class="h5 mb-0">Paste your current web.config</h2>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            <label asp-for="Import" class="visually-hidden">Enter Web.Config for Migration</label>
+            <textarea class="form-control font-monospace" asp-for="Import" rows="20" placeholder="&lt;configuration&gt; ... &lt;/configuration&gt;"></textarea>
+            <div class="text-end mt-3">
+                <button class="btn btn-primary btn-lg" type="submit">
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i>Migrate Config
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.MergedOutput.IsSet())
+{
+    <div class="card shadow-sm border-success mb-4">
+        <div class="card-header d-flex align-items-center">
+            <span class="badge text-bg-success me-2">2</span>
+            <h2 class="h5 mb-0 flex-grow-1">Your updated web.config</h2>
+            <button type="button" class="btn btn-sm btn-outline-secondary copy-button" data-copy-target="view">
+                <i class="fa-solid fa-copy me-1"></i><span>Copy</span>
+            </button>
+        </div>
+        <div class="card-body">
+            <input type="hidden" id="MergedOutput" value="@Html.Encode(Model.MergedOutput)" />
+            <textarea id="view"></textarea>
+        </div>
     </div>
 
-    <form method="post">
-        <div class="row">
-            <div class="col">
-                <div class="mb-3">
-                    <label asp-for="Import" CssClass="form-label">
-                        Enter Web.Config for Migration
-                    </label>
-                    <textarea class="form-control" asp-for="Import" rows="20"></textarea>
-                </div>
-            </div>
-        </div>
-
-        <p><button class="btn btn-primary" type="submit">Migrate Config</button></p>
-    </form>
-    
-    @if (Model.MergedOutput.IsSet())
+    @if (Model.AppSettings.IsSet())
     {
-        <label>Updated Web.config</label>
-        <div class="row">
-            <div class="col">
-                <input type="hidden" ID="MergedOutput" value="@Html.Encode(Model.MergedOutput)"/>
-                <textarea id="view"></textarea>
+        <div class="card shadow-sm border-warning mb-4">
+            <div class="card-header d-flex align-items-center">
+                <span class="badge text-bg-warning me-2">3</span>
+                <h2 class="h5 mb-0 flex-grow-1">Add to the appSettings in your app.config</h2>
+                <button type="button" class="btn btn-sm btn-outline-secondary copy-button" data-copy-target="appSettings">
+                    <i class="fa-solid fa-copy me-1"></i><span>Copy</span>
+                </button>
             </div>
-        </div>
-
-        @if (Model.AppSettings.IsSet())
-        {
-            <div class="row">
-                <div class="col">
-                    <div class="alert alert-danger show">
-                        <h4 class="alert-heading">Important:</h4>
-                        <p>Add the following to the appSettings in the app.config...</p>
-                        <hr />
-                        <pre><code class="language-xml">@(Model.AppSettings)</code></pre>
-                    </div>
-                </div>
+            <div class="card-body">
+                <pre class="bg-body-tertiary p-3 rounded-3 text-wrap text-break mb-0"><code id="appSettings" class="language-xml">@(Model.AppSettings)</code></pre>
             </div>
-        }
-    }
-    
-    @if (Model.ErrorMessage.IsSet())
-    {
-        <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Error</h4>
-            <p>If you encounter any errors. Report them in the support forum. <a href="https://yetanotherforum.net/forum/">https://yetanotherforum.net/forum/</a></p>
-            <hr />
-            <p class="mb-0">@Html.Encode(Model.ErrorMessage)</p>
         </div>
     }
-</div>
+}
 
 @section Scripts
 {
     <script src="~/js/codemirror-xml.min.js"></script>
+    <partial name="_CopyScript" />
 }

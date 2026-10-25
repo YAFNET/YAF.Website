@@ -1,422 +1,234 @@
 ﻿@page
-@using YAF.Web.TagHelpers
 @model YAF.Website.Pages.DownloadsModel
 
 @{
     ViewData["Title"] = "Downloads";
+
+    var corePackages = new (string Name, string Logo, string Description, string Url, string Downloads, string NuGet)[]
+    {
+        ("MS SQL Server", "~/images/server/mssql.svg", "For MS SQL Server / Express (2012 or above)", Model.ReleaseMsSqlCoreUrl, Model.ReleaseMsSqlCoreDownloads, "YAFNET.Data.SqlServer"),
+        ("MySQL", "~/images/server/mysql.png", "For MySQL and MariaDB", Model.ReleaseMySqlCoreUrl, Model.ReleaseMySqlCoreDownloads, "YAFNET.Data.MySQL"),
+        ("PostgreSQL", "~/images/server/postgresql.png", "For PostgreSQL", Model.ReleasePostgreSqlCoreUrl, Model.ReleasePostgreSqlCoreDownloads, "YAFNET.Data.PostgreSQL"),
+        ("SQLite", "~/images/server/sqlite.svg", "For SQLite, no separate database server needed", Model.ReleaseSqliteCoreUrl, Model.ReleaseSqliteCoreDownloads, "YAFNET.Data.Sqlite")
+    };
+
+    var nugetPackages = new (string Id, string Description)[]
+    {
+        ("YAFNET.RazorPages", "Razor Pages client library to integrate YAF.NET into your own ASP.NET Core application"),
+        ("YAFNET.UI.Chat", "Chat UI for YAF.NET")
+    };
+
+    var legacyPackages = new (string Name, string Logo, string Description, string InstallUrl, string InstallDownloads, string UpgradeUrl, string UpgradeDownloads)[]
+    {
+        ("MS SQL Server", "~/images/server/mssql.svg", "For MS SQL Server (2012 or above)", Model.ReleaseMsSqlInstall, Model.ReleaseMsSqlInstallDownloads, Model.ReleaseMsSqlUpgrade, Model.ReleaseMsSqlUpgradeDownloads),
+        ("MySQL", "~/images/server/mysql.png", "For MySQL", Model.ReleaseMySqlInstall, Model.ReleaseMySqlInstallDownloads, Model.ReleaseMySqlUpgrade, Model.ReleaseMySqlUpgradeDownloads),
+        ("PostgreSQL", "~/images/server/postgresql.png", "For PostgreSQL", Model.ReleasePostgreSqlInstall, Model.ReleasePostgreSqlInstallDownloads, Model.ReleasePostgreSqlUpgrade, Model.ReleasePostgreSqlUpgradeDownloads),
+        ("SQLite", "~/images/server/sqlite.svg", "For SQLite", Model.ReleaseSqliteInstall, Model.ReleaseSqliteInstallDownloads, Model.ReleaseSqliteUpgrade, Model.ReleaseSqliteUpgradeDownloads)
+    };
 }
 
-<style>
-    .icon-square {
-        width: 5rem;
-        height: 5rem;
-    }
-</style>
-
-<!-- Recent Jobs -->
 <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Downloads</h1>
-    <p class="lead">Get the latest version of YAF and install it now. It's simple to install and ready to run.</p>
+    <p class="lead">Get the latest version of YAF.NET and install it now. It's simple to install and ready to run.</p>
+    <span class="badge rounded-pill text-bg-primary fs-6">
+        <i class="fa-solid fa-tag me-1"></i>Latest: @Model.ReleaseCoreTitle
+    </span>
 </div>
 
-<div class="accordion" id="downloads">
-    <div class="accordion-item">
-        <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNetFx" aria-expanded="false" aria-controls="collapseNetFx">
-                <div class="icon-square text-body-emphasis d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                    <img src="~/images/net-framework.png" alt=".net Framework logo" style="width:3em;height:3em" />
+<ul class="nav nav-pills justify-content-center mb-4" id="downloadTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active d-flex align-items-center" id="core-tab" data-bs-toggle="pill" data-bs-target="#core" type="button" role="tab" aria-controls="core" aria-selected="true">
+            <img src="~/images/net-core.png" alt="" class="me-2" style="width:1.5em;height:1.5em" />
+            v4 &middot; .NET 10
+            <span class="badge text-bg-success ms-2">Recommended</span>
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link d-flex align-items-center" id="netfx-tab" data-bs-toggle="pill" data-bs-target="#netfx" type="button" role="tab" aria-controls="netfx" aria-selected="false">
+            <img src="~/images/net-framework.png" alt="" class="me-2" style="width:1.5em;height:1.5em" />
+            v3 &middot; .NET Framework
+            <span class="badge text-bg-secondary ms-2">Legacy</span>
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="downloadTabsContent">
+
+    <!-- v4 / .NET Core -->
+    <div class="tab-pane fade show active" id="core" role="tabpanel" aria-labelledby="core-tab">
+
+        <!-- Docker -->
+        <div class="card shadow-sm border-0 text-bg-dark mb-4">
+            <div class="card-body p-4">
+                <div class="row align-items-center g-3">
+                    <div class="col-md">
+                        <h2 class="h4 mb-1"><i class="fa-brands fa-docker me-2"></i>Run with Docker</h2>
+                        <p class="mb-0">The fastest way to get started: ready-made images for every database, no download required.</p>
+                    </div>
+                    <div class="col-md-auto">
+                        <a class="btn btn-light me-2 mb-1" asp-area="" asp-page="/GetStarted">
+                            <i class="fa-solid fa-rocket me-1"></i>Setup Guide
+                        </a>
+                        <a class="btn btn-outline-light mb-1" href="https://hub.docker.com/r/yafnet/yafnet" target="_blank">
+                            Docker Hub
+                        </a>
+                    </div>
                 </div>
-                <h3 class="fs-2 text-body-emphasis">.NET Framework Versions</h3>
-            </button>
-        </h2>
-        <div id="collapseNetFx" class="accordion-collapse collapse" data-bs-parent="#downloads">
-            <div class="accordion-body">
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <div class="col">
-                        <!-- Recent Jobs -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    @Model.ReleaseTitle
-                                </h5>
-                                <p class="card-text">
-                                    Download the Latest YAF.NET Release (MS SQL Package)
-                                </p>
-                                <img src="~/images/server/mssql.svg" class="img-thumbnail" alt="MS SQL Server logo" style="max-height:100px;background-color: white">
-                                <p class="card-text">
-                                    For MS SQL Server (2012 or above). YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2026.
-                                </p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <a class="btn btn-primary m-1" href="@Model.ReleaseMsSqlInstall">
-                                            Install Package <span class="badge bg-secondary">@Model.ReleaseMsSqlInstallDownloads</span>
-                                        </a>
-                                        <a class="btn btn-info m-1" href="@Model.ReleaseMsSqlUpgrade">
-                                            Upgrade Package <span class="badge bg-secondary">@Model.ReleaseMsSqlUpgradeDownloads</span>
-                                        </a>
-                                        <a class="btn btn-warning m-1" href="@Model.ReleaseSource">
-                                            Source Package
-                                        </a>
-                                    </small>
-                                </p>
+            </div>
+        </div>
+
+        <h2 class="h4 mb-3"><i class="fa-solid fa-box-archive text-primary me-2"></i>Install / Upgrade Packages</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-5">
+            @foreach (var package in corePackages)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column text-center">
+                            <div class="bg-white rounded-3 border d-flex align-items-center justify-content-center mb-3" style="height:100px">
+                                <img src="@Url.Content(package.Logo)" alt="@package.Name logo" style="max-height:80px;max-width:80%">
                             </div>
+                            <h3 class="h5 card-title">@package.Name</h3>
+                            <p class="card-text text-body-secondary small flex-grow-1">@package.Description</p>
+                            <a class="btn btn-primary w-100 mb-2" href="@package.Url">
+                                <i class="fa-solid fa-download me-1"></i>Download
+                            </a>
+                            <div class="small text-body-secondary mb-2">@package.Downloads</div>
+                            <a href="https://nuget.org/packages/@package.NuGet" target="_blank">
+                                <img src="https://img.shields.io/nuget/v/@(package.NuGet).svg" alt="@package.NuGet" />
+                            </a>
                         </div>
                     </div>
-
-                    <div class="col">
-                        <!-- Recent Jobs -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    @Model.ReleaseTitle
-                                </h5>
-                                <p class="card-text">
-                                    Download the Latest YAF.NET Release (MySQL Package)
-                                </p>
-                                <img src="~/images/server/mysql.png" class="img-thumbnail" alt="MySQL logo" style="max-height:100px;background-color: white">
-                                <p class="card-text">
-                                    For MySQL. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2026.
-                                </p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <a class="btn btn-primary m-1" href="@Model.ReleaseMySqlInstall">
-                                            Install Package <span class="badge bg-secondary">@Model.ReleaseMySqlInstallDownloads</span>
-                                        </a>
-                                        <a class="btn btn-info m-1" id="release-mysql-upgrade" href="@Model.ReleaseMySqlUpgrade">
-                                            Upgrade Package <span class="badge bg-secondary">@Model.ReleaseMySqlUpgradeDownloads</span>
-                                        </a>
-                                        <a class="btn btn-warning m-1" href="@Model.ReleaseSource">
-                                            Source Package
-                                        </a>
-                                    </small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <!-- Recent Jobs -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    @Model.ReleaseTitle
-                                </h5>
-                                <p class="card-text">
-                                    Download the Latest YAF.NET Release (PostgreSQL Package)
-                                </p>
-                                <img src="~/images/server/postgresql.png" class="img-thumbnail" alt="PostgreSQL logo" style="max-height:100px;background-color: white">
-                                <p class="card-text">
-                                    For PostgreSQL. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2026.
-                                </p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <a class="btn btn-primary m-1" href="@Model.ReleasePostgreSqlInstall">
-                                            Install Package <span class="badge bg-secondary">@Model.ReleasePostgreSqlInstallDownloads</span>
-                                        </a>
-                                        <a class="btn btn-info m-1" id="release-postgresql-upgrade" href="@Model.ReleasePostgreSqlUpgrade">
-                                            Upgrade Package <span class="badge bg-secondary">@Model.ReleasePostgreSqlUpgradeDownloads</span>
-                                        </a>
-                                        <a class="btn btn-warning m-1" href="@Model.ReleaseSource">
-                                            Source Package
-                                        </a>
-                                    </small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <!-- Recent Jobs -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    @Model.ReleaseTitle
-                                </h5>
-                                <p class="card-text">
-                                    Download the Latest YAF.NET Release (Sqlite Package)
-                                </p>
-                                <img src="~/images/server/sqlite.svg" class="img-thumbnail" alt="Sqlite logo" style="max-height:100px;background-color: white">
-                                <p class="card-text">
-                                    For Sqlite. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2026.
-                                </p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <a class="btn btn-primary m-1" href="@Model.ReleaseSqliteInstall">
-                                            Install Package <span class="badge bg-secondary">@Model.ReleaseSqliteInstallDownloads</span>
-                                        </a>
-                                        <a class="btn btn-info m-1" href="@Model.ReleaseSqliteUpgrade">
-                                            Upgrade Package <span class="badge bg-secondary">@Model.ReleaseSqliteUpgradeDownloads</span>
-                                        </a>
-                                        <a class="btn btn-warning m-1" href="@Model.ReleaseSource">
-                                            Source Package
-                                        </a>
-                                    </small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Recent Jobs -->
-                    <!-- Recent Jobs -->
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    @Model.ReleaseDnnTitle
-                                </h5>
-                                <p class="card-text">
-                                    YAF.NET Forum Module for DNN (DotNetNuke) CMS for MS SQL Server (2012 or above)
-                                </p>
-                                <p class="card-text">
-                                    YAF.NET's DNN module allows simple integration into your DNN CMS with a module, for DNN v10.03.02 or above.
-                                </p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <a class="btn btn-primary m-1"href="@Model.ReleaseDnnInstall">
-                                            Module Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleaseDnnInstallDownloads</span>
-                                        </a>
-                                        <a class="btn btn-info m-1" href="@Model.ReleaseDnnSource">
-                                            Source Package
-                                        </a>
-                                    </small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Recent Jobs -->
-
-                    <!-- Sample Application -->
-                    <div class="col">
-	                    <div class="card">
-		                    <div class="card-body">
-			                    <h5 class="card-title">
-				                    @Model.ReleaseSampleApplicationTitle
-			                    </h5>
-			                    <p class="card-text">
-                                    This Application is a Standard Visual Studio Sample ASP.NET Application (.NET Framework 4.8.1), including YAF.NET integrated as Control on a Page.
-			                    </p>
-			                    <p class="card-text">
-				                    <small class="text-muted">
-                                        <a class="btn btn-primary m-1" href="@Model.ReleaseSampleApplication">
-						                    Download
-					                    </a>
-				                    </small>
-			                    </p>
-		                    </div>
-	                    </div>
-                    </div>
-                    <!-- End Sample Application -->
-
                 </div>
-                <!-- End Recent Jobs -->
+            }
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <h2 class="h4 mb-3"><i class="fa-solid fa-cubes text-primary me-2"></i>NuGet Packages</h2>
+                <div class="list-group shadow-sm">
+                    @foreach (var package in nugetPackages)
+                    {
+                        <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center gap-3" href="https://nuget.org/packages/@package.Id" target="_blank">
+                            <span>
+                                <span class="fw-semibold d-block">@package.Id</span>
+                                <span class="small text-body-secondary">@package.Description</span>
+                            </span>
+                            <img src="https://img.shields.io/nuget/v/@(package.Id).svg" alt="@package.Id" />
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="h4 mb-3"><i class="fa-solid fa-code text-primary me-2"></i>Source &amp; Samples</h2>
+                <div class="list-group shadow-sm">
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center gap-3" href="@Model.ReleaseCoreSource">
+                        <span>
+                            <span class="fw-semibold d-block">Source Code</span>
+                            <span class="small text-body-secondary">@Model.ReleaseCoreTitle, C# ASP.NET Core project for Visual Studio 2026</span>
+                        </span>
+                        <i class="fa-solid fa-file-zipper fs-4"></i>
+                    </a>
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center gap-3" href="@Model.ReleaseSampleApp">
+                        <span>
+                            <span class="fw-semibold d-block">@Model.ReleaseSampleAppTitle</span>
+                            <span class="small text-body-secondary">Sample ASP.NET Core application (.NET 10) with integrated YAF.NET v4</span>
+                        </span>
+                        <i class="fa-solid fa-file-zipper fs-4"></i>
+                    </a>
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center gap-3" href="https://github.com/YAFNET/YAFNET" target="_blank">
+                        <span>
+                            <span class="fw-semibold d-block">GitHub Repository</span>
+                            <span class="small text-body-secondary">Browse the code, report issues and contribute</span>
+                        </span>
+                        <i class="fa-brands fa-github fs-4"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="accordion-item">
-        <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNetCore" aria-expanded="false" aria-controls="collapseNetCore">
-                <div class="icon-square text-body-emphasis d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
-                    <img src="~/images/net-core.png" alt=".net Core logo" style="width:3em;height:3em" />
+
+    <!-- v3 / .NET Framework -->
+    <div class="tab-pane fade" id="netfx" role="tabpanel" aria-labelledby="netfx-tab">
+        <div class="alert alert-warning d-flex align-items-center">
+            <i class="fa-solid fa-triangle-exclamation fs-4 me-3"></i>
+            <div>
+                <strong>@Model.ReleaseTitle</strong> is the legacy version for the .NET Framework. For new installations use YAF.NET v4.
+                Upgrading an older installation? Use the <a asp-area="" asp-page="/MigrationTool">Web.Config Migration Tool</a>.
+            </div>
+        </div>
+
+        <h2 class="h4 mb-3"><i class="fa-solid fa-box-archive text-primary me-2"></i>Install &amp; Upgrade Packages</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mb-5">
+            @foreach (var package in legacyPackages)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column text-center">
+                            <div class="bg-white rounded-3 border d-flex align-items-center justify-content-center mb-3" style="height:100px">
+                                <img src="@Url.Content(package.Logo)" alt="@package.Name logo" style="max-height:80px;max-width:80%">
+                            </div>
+                            <h3 class="h5 card-title">@package.Name</h3>
+                            <p class="card-text text-body-secondary small flex-grow-1">@package.Description</p>
+                            <a class="btn btn-primary w-100 mb-1" href="@package.InstallUrl">
+                                <i class="fa-solid fa-download me-1"></i>Install Package
+                            </a>
+                            <div class="small text-body-secondary mb-2">@package.InstallDownloads</div>
+                            <a class="btn btn-outline-primary w-100 mb-1" href="@package.UpgradeUrl">
+                                <i class="fa-solid fa-arrow-up me-1"></i>Upgrade Package
+                            </a>
+                            <div class="small text-body-secondary">@package.UpgradeDownloads</div>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="fs-2 text-body-emphasis">.NET Core Versions</h3>
-            </button>
-        </h2>
-        <div id="collapseNetCore" class="accordion-collapse collapse" data-bs-parent="#downloads">
-            <div class="accordion-body">
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <div class="col">
-                        <!-- Recent Jobs -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    @Model.ReleaseCoreTitle
-                                </h5>
-                                <p class="card-text">
-                                    Download the Latest YAF.NET Release (MS SQL Package)
-                                </p>
-                                <img src="~/images/server/mssql.svg" class="img-thumbnail" alt="MS SQL Server logo" style="max-height:100px;background-color: white">
-                                <p class="card-text">
-                                    For MS SQL Server (2012 or above). YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2026.
-                                </p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-	                                    <a class="btn btn-primary m-1" href="@Model.ReleaseMsSqlCoreUrl">
-		                                    Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleaseMsSqlCoreDownloads</span>
-	                                    </a>
-                                        <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
-                                            Source Package
-                                        </a>
-	                                    <a class="m-1" href="https://nuget.org/packages/YAFNET.Data.SqlServer">
-		                                    <img src="https://img.shields.io/nuget/v/YAFNET.Data.SqlServer.svg" alt="YAFNET.Data.SqlServer" />
-	                                    </a>
-                                    </small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+            }
+        </div>
 
-                    <div class="col">
-                        <!-- Recent Jobs -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    @Model.ReleaseCoreTitle
-                                </h5>
-                                <p class="card-text">
-                                    Download the Latest YAF.NET Release (MySQL Package)
-                                </p>
-                                <img src="~/images/server/mysql.png" class="img-thumbnail" alt="MySQL logo" style="max-height:100px;background-color: white">
-                                <p class="card-text">
-                                    For MySQL. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2026.
-                                </p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <a class="btn btn-primary m-1" href="@Model.ReleaseMySqlCoreUrl">
-                                            Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleaseMySqlCoreDownloads</span>
-                                        </a>
-                                        <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
-                                            Source Package
-                                        </a>
-                                        <a class="m-1" href="https://nuget.org/packages/YAFNET.Data.MySQL">
-	                                        <img src="https://img.shields.io/nuget/v/YAFNET.Data.MySQL.svg" alt="YAFNET.Data.MySQL" />
-                                        </a>
-                                    </small>
-                                </p>
-                            </div>
-                        </div>
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <h2 class="h4 mb-3"><i class="fa-solid fa-puzzle-piece text-primary me-2"></i>DNN Module</h2>
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="h5 card-title">@Model.ReleaseDnnTitle</h3>
+                        <p class="card-text text-body-secondary">
+                            Forum module for DNN (DotNetNuke) CMS v10.03.02 or above, for MS SQL Server (2012 or above).
+                        </p>
+                        <a class="btn btn-primary me-2 mb-1" href="@Model.ReleaseDnnInstall">
+                            <i class="fa-solid fa-download me-1"></i>Install / Upgrade
+                            <span class="badge text-bg-light ms-1">@Model.ReleaseDnnInstallDownloads</span>
+                        </a>
+                        <a class="btn btn-outline-secondary mb-1" href="@Model.ReleaseDnnSource">
+                            <i class="fa-solid fa-code me-1"></i>Source
+                        </a>
                     </div>
-
-                    <div class="col">
-                        <!-- Recent Jobs -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    @Model.ReleaseCoreTitle
-                                </h5>
-                                <p class="card-text">
-                                    Download the Latest YAF.NET Release (PostgreSQL Package)
-                                </p>
-                                <img src="~/images/server/postgresql.png" class="img-thumbnail" alt="PostgreSQL logo" style="max-height:100px;background-color: white">
-                                <p class="card-text">
-                                    For PostgreSQL. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2026.
-                                </p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <a class="btn btn-primary m-1" href="@Model.ReleasePostgreSqlCoreUrl">
-                                            Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleasePostgreSqlCoreDownloads</span>
-                                        </a>
-                                        <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
-                                            Source Package
-                                        </a>
-                                        <a class="m-1" href="https://nuget.org/packages/YAFNET.Data.PostgreSQL">
-	                                        <img src="https://img.shields.io/nuget/v/YAFNET.Data.PostgreSQL.svg" alt="YAFNET.Data.PostgreSQL" />
-                                        </a>
-                                    </small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <!-- Recent Jobs -->
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    @Model.ReleaseCoreTitle
-                                </h5>
-                                <p class="card-text">
-                                    Download the Latest YAF.NET Release (Sqlite Package)
-                                </p>
-                                <img src="~/images/server/sqlite.svg" class="img-thumbnail" alt="Sqlite logo" style="max-height:100px;background-color: white">
-                                <p class="card-text">
-                                    For Sqlite. YAF.NET Apache 2.0 licensed. Source code is C#/ASP.NET project for Visual Studio 2026.
-                                </p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <a class="btn btn-primary m-1" href="@Model.ReleaseSqliteCoreUrl">
-                                            Install/Upgrade Package <span class="badge bg-secondary">@Model.ReleaseSqliteCoreDownloads</span>
-                                        </a>
-                                        <a class="btn btn-warning m-1" href="@Model.ReleaseCoreSource">
-                                            Source Package
-                                        </a>
-                                        <a class="m-1" href="https://nuget.org/packages/YAFNET.Data.Sqlite">
-	                                        <img src="https://img.shields.io/nuget/v/YAFNET.Data.Sqlite.svg" alt="YAFNET.Data.Sqlite" />
-                                        </a>
-                                    </small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Recent Jobs -->
-
-                    <!-- Razor Pages Nuget Package -->
-                    <div class="col">
-	                    <div class="card">
-		                    <div class="card-body">
-			                    <h5 class="card-title">
-                                    YAFNET.RazorPages @Model.ReleaseCoreTitle Nuget Package
-			                    </h5>
-			                    <p class="card-text">
-                                    YAF.NET Razor Pages Client Library
-			                    </p>
-			                    <p class="card-text">
-				                    <small class="text-muted">
-                                        <a class="m-1" href="https://nuget.org/packages/YAFNET.RazorPages">
-                                            <img src="https://img.shields.io/nuget/v/YAFNET.RazorPages.svg" alt="YAFNET.RazorPages" />
-					                    </a>
-				                    </small>
-			                    </p>
-		                    </div>
-	                    </div>
-                    </div>
-                    <!-- End Razor Pages Nuget Package -->
-
-                    <!-- Chat Nuget Package -->
-                    <div class="col">
-	                    <div class="card">
-		                    <div class="card-body">
-			                    <h5 class="card-title">
-                                    Chat UI for @Model.ReleaseCoreTitle Nuget Package
-			                    </h5>
-			                    <p class="card-text">
-                                    Chat UI for YAF.NET
-			                    </p>
-			                    <p class="card-text">
-				                    <small class="text-muted">
-                                        <a class="m-1" href="https://nuget.org/packages/YAFNET.UI.Chat">
-                                            <img src="https://img.shields.io/nuget/v/YAFNET.UI.Chat.svg" alt="YAFNET.UI.Chat" />
-					                    </a>
-				                    </small>
-			                    </p>
-		                    </div>
-	                    </div>
-                    </div>
-                    <!-- End Chat Nuget Package -->
-
-                    <!-- Sample Application -->
-                    <div class="col">
-	                    <div class="card">
-		                    <div class="card-body">
-			                    <h5 class="card-title">
-				                    @Model.ReleaseSampleAppTitle
-			                    </h5>
-			                    <p class="card-text">
-                                    This Application is a Standard Visual Studio Sample ASP.NET Core Application (.NET 10.0), including integrated YAF.NET v4
-			                    </p>
-			                    <p class="card-text">
-				                    <small class="text-muted">
-					                    <a class="btn btn-primary m-1" href="@Model.ReleaseSampleApp">
-						                    Download
-					                    </a>
-				                    </small>
-			                    </p>
-		                    </div>
-	                    </div>
-                    </div>
-                    <!-- End Sample Application -->
-
                 </div>
-                <!-- End Recent Jobs -->
+            </div>
+            <div class="col-lg-6">
+                <h2 class="h4 mb-3"><i class="fa-solid fa-code text-primary me-2"></i>Source &amp; Samples</h2>
+                <div class="list-group shadow-sm">
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center gap-3" href="@Model.ReleaseSource">
+                        <span>
+                            <span class="fw-semibold d-block">Source Code</span>
+                            <span class="small text-body-secondary">@Model.ReleaseTitle, C# ASP.NET project for Visual Studio 2026</span>
+                        </span>
+                        <i class="fa-solid fa-file-zipper fs-4"></i>
+                    </a>
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center gap-3" href="@Model.ReleaseSampleApplication">
+                        <span>
+                            <span class="fw-semibold d-block">@Model.ReleaseSampleApplicationTitle</span>
+                            <span class="small text-body-secondary">Sample ASP.NET application (.NET Framework 4.8.1) with YAF.NET integrated as control on a page</span>
+                        </span>
+                        <i class="fa-solid fa-file-zipper fs-4"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+<div class="text-center mt-5">
+    <p class="text-body-secondary">
+        All packages are Apache 2.0 licensed. Need help installing? See the
+        <a href="https://github.com/YAFNET/YAFNET/wiki" target="_blank">Documentation</a> or ask in the
+        <a asp-area="Forums" asp-page="/Index">Support Forum</a>.
+    </p>
 </div>

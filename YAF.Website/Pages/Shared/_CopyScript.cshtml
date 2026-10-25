@@ -1,0 +1,14 @@
+<script>
+    document.querySelectorAll('.copy-button').forEach(function (button) {
+        button.addEventListener('click', function () {
+            const target = document.getElementById(button.dataset.copyTarget);
+            const text = target.value !== undefined ? target.value : target.textContent;
+            const label = button.querySelector('span');
+
+            navigator.clipboard.writeText(text).then(function () {
+                label.textContent = 'Copied!';
+                setTimeout(function () { label.textContent = 'Copy'; }, 2000);
+            });
+        });
+    });
+</script>

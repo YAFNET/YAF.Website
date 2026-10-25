@@ -9,6 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" type="text/css" href="~/css/forum.min.css" asp-append-version="true">
     <link rel="stylesheet" type="text/css" href="~/css/themes/cosmo/bootstrap-forum.min.css" asp-append-version="true">
     <link rel="apple-touch-startup-image" href="~/assets/apple-splash-2048-2732.webp" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
     <link rel="apple-touch-startup-image" href="~/assets/apple-splash-2732-2048.webp" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
@@ -67,6 +68,7 @@
         </p>
         <nav class="my-2 my-md-0 me-md-3">
             <a asp-area="" asp-page="/Index" class="p-2 text-bg-light-subtle">Home</a>
+            <a asp-area="" asp-page="/GetStarted" class="p-2 text-bg-light-subtle">Get Started</a>
             <a asp-area="" asp-page="/Downloads" class="p-2 text-bg-light-subtle">Downloads</a>
             <a asp-area="" asp-page="/Features" class="p-2 text-bg-light-subtle">Features</a>
             <a asp-area="Forums" asp-page="/Index" class="p-2 text-bg-light-subtle">Forum</a>
@@ -74,27 +76,29 @@
                 Support
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li class="dropdown-item ">
-                    <a href="https://github.com/YAFNET/YAFNET/wiki" class="text-bg-light-subtle">
-                        Documentation
-                    </a>
-                </li>
-                <li class="dropdown-item ">
-                    <a asp-area="" asp-page="/Key" class="text-bg-light-subtle">
-                        Generate Machine Key
-                    </a>
-                </li>
-                <li class="dropdown-item ">
-                    <a asp-area="" asp-page="/MigrationTool" class="text-bg-light-subtle">
-                        Web.Config Migration Tool
-                    </a>
-                </li>
-                <li class="dropdown-item ">
-	                <a asp-area="" asp-page="/Vapid-Keys" class="text-bg-light-subtle">
-		                Vapid Keys Generator
-	                </a>
-                </li>
+	            <li class="dropdown-item ">
+		            <a href="https://github.com/YAFNET/YAFNET/wiki" class="text-bg-light-subtle">
+			            Documentation
+		            </a>
+	            </li>
+	            <li class="dropdown-item ">
+		            <a asp-area="" asp-page="/Key" class="text-bg-light-subtle">
+			            Generate Machine Key
+		            </a>
+	            </li>
+	            <li class="dropdown-item ">
+		            <a asp-area="" asp-page="/MigrationTool" class="text-bg-light-subtle">
+			            Web.Config Migration Tool
+		            </a>
+	            </li>
+	            <li class="dropdown-item ">
+		            <a asp-area="" asp-page="/Vapid-Keys" class="text-bg-light-subtle">
+			            Vapid Keys Generator
+		            </a>
+	            </li>
             </ul>
+            <a href="https://github.com/YAFNET/YAFNET" target="_blank" class="p-2 text-bg-light-subtle"><i class="fa-brands fa-github"></i></a>
+            <a href="https://hub.docker.com/r/yafnet/yafnet" target="_blank" class="p-2 text-bg-light-subtle"><i class="fa-brands fa-docker"></i></a>
             @if (Current.IsGuest)
             {
                 <a class="btn btn-outline-success my-2 my-sm-0 me-sm-2" asp-page="/Account/Login" asp-area="Forums">Login</a>
